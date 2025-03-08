@@ -25,30 +25,29 @@ class ExtractionHistory extends StatelessWidget {
             const SizedBox(height: 8),
             SizedBox(
               height: 30,
-              child:
-                  extractedNumbers.isEmpty
-                      ? const Text('- - -')
-                      : ListView.separated(
-                        controller: scrollController,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: extractedNumbers.length,
-                        itemBuilder: (context, index) {
-                          final number = extractedNumbers[index];
-                          final isLast = index == extractedNumbers.length - 1;
-                          return Chip(
-                            backgroundColor: isLast ? Colors.green : null,
-                            label: Text(
-                              number.toString(),
-                              style: TextStyle(
-                                color: isLast ? Colors.white : Colors.black87,
-                              ),
+              child: extractedNumbers.isEmpty
+                  ? const Text('- - -')
+                  : ListView.separated(
+                      controller: scrollController,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: extractedNumbers.length,
+                      itemBuilder: (context, index) {
+                        final number = extractedNumbers[index];
+                        final isLast = index == extractedNumbers.length - 1;
+                        return Chip(
+                          backgroundColor: isLast ? Colors.green : null,
+                          label: Text(
+                            number.toString(),
+                            style: TextStyle(
+                              color: isLast ? Colors.white : Colors.black87,
                             ),
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return const SizedBox(width: 8);
-                        },
-                      ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(width: 8);
+                      },
+                    ),
             ),
           ],
         ),

@@ -112,7 +112,10 @@ class PrizeChecker {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Ok', style: TextStyle(color: Colors.black87)),
+            child: const Text(
+              'Ok',
+              style: TextStyle(color: Colors.black87),
+            ),
           ),
         ],
       ),

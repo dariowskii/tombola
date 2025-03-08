@@ -13,10 +13,7 @@ import 'package:tombola/widgets/raffle_card_header.dart';
 import 'package:tombola/widgets/raffle_card_list.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({
-    Key? key,
-    required this.gameState,
-  }) : super(key: key);
+  const HomeScreen({Key? key, required this.gameState}) : super(key: key);
 
   final GameState? gameState;
 
@@ -95,26 +92,32 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Inserisci il nome del nuovo utente'),
         content: TextField(
           controller: textFieldController,
-          decoration: const InputDecoration(
-            hintText: 'Nome',
-          ),
+          decoration: const InputDecoration(hintText: 'Nome'),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Annulla', style: TextStyle(color: Colors.red)),
+            child: const Text(
+              'Annulla',
+              style: TextStyle(color: Colors.red),
+            ),
           ),
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
               setState(() {
-                _users.add(User(
-                  name: textFieldController.text,
-                  raffleCards: <RaffleCardModel>[],
-                ));
+                _users.add(
+                  User(
+                    name: textFieldController.text,
+                    raffleCards: <RaffleCardModel>[],
+                  ),
+                );
               });
             },
-            child: const Text('Ok', style: TextStyle(color: Colors.black87)),
+            child: const Text(
+              'Ok',
+              style: TextStyle(color: Colors.black87),
+            ),
           ),
         ],
       ),
@@ -158,7 +161,10 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Ok', style: TextStyle(color: Colors.black87)),
+            child: const Text(
+              'Ok',
+              style: TextStyle(color: Colors.black87),
+            ),
           ),
         ],
       ),
@@ -174,10 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _saveData() async {
-    final state = GameState(
-      extractedNumbers: _extractedNumbers,
-      users: _users,
-    );
+    final state = GameState(extractedNumbers: _extractedNumbers, users: _users);
 
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('gameState', jsonEncode(state));
@@ -206,15 +209,9 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: const Icon(Icons.person_add),
             ),
           ],
-          IconButton(
-            onPressed: _deleteData,
-            icon: const Icon(Icons.delete),
-          ),
+          IconButton(onPressed: _deleteData, icon: const Icon(Icons.delete)),
         ],
-        leading: IconButton(
-          onPressed: _saveData,
-          icon: const Icon(Icons.save),
-        ),
+        leading: IconButton(onPressed: _saveData, icon: const Icon(Icons.save)),
       ),
       body: SafeArea(
         child: CustomScrollView(
@@ -240,11 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               },
             ),
-            SliverToBoxAdapter(
-              child: Container(
-                height: 80,
-              ),
-            )
+            SliverToBoxAdapter(child: Container(height: 80)),
           ],
         ),
       ),

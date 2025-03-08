@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 class LastExtractedNumber extends StatelessWidget {
-  const LastExtractedNumber({
-    Key? key,
-    required this.lastExtractedNumber,
-  }) : super(key: key);
+  const LastExtractedNumber({Key? key, required this.lastExtractedNumber})
+      : super(key: key);
 
   final int lastExtractedNumber;
 
@@ -28,14 +26,7 @@ class LastExtractedNumber extends StatelessWidget {
       expandedHeight: 100,
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(0),
-        child: Center(
-          child: Text(
-            text,
-            style: const TextStyle(
-              fontSize: 48,
-            ),
-          ),
-        ),
+        child: Center(child: Text(text, style: const TextStyle(fontSize: 48))),
       ),
     );
   }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "698603939289",
+    "project_id": "tombola-8067d",
+    "storage_bucket": "tombola-8067d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698603939289:android:db8d6b4247ae477761e5c8",
+        "android_client_info": {
+          "package_name": "com.example.tombola"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtUx3xj6tJ_jBTZNC6eQFQToqSTtejSF8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

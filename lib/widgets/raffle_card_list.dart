@@ -5,11 +5,11 @@ import 'package:tombola/widgets/raffle_card_user_info.dart';
 
 class RaffleCardList extends StatelessWidget {
   const RaffleCardList({
-    Key? key,
+    super.key,
     required this.users,
     required this.extractedNumbers,
     required this.onEditUserRaffleCards,
-  }) : super(key: key);
+  });
 
   final List<User> users;
   final List<int> extractedNumbers;
@@ -42,7 +42,10 @@ class RaffleCardList extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Ok', style: TextStyle(color: Colors.black87)),
+            child: const Text(
+              'Ok',
+              style: TextStyle(color: Colors.black87),
+            ),
           ),
         ],
       ),

@@ -7,11 +7,7 @@ class User {
 
   Prize? lastPrize;
 
-  User({
-    required this.name,
-    required this.raffleCards,
-    this.lastPrize,
-  });
+  User({required this.name, required this.raffleCards, this.lastPrize});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -19,8 +15,12 @@ class User {
       raffleCards: (json['raffleCards'] as List)
           .map((e) => RaffleCardModel.fromJson(e))
           .toList(),
-      lastPrize:
-          json['lastPrize'] != null ? Prize.fromIndex(json['lastPrize'], isTombolino: json['lastPrize'] == 100) : null,
+      lastPrize: json['lastPrize'] != null
+          ? Prize.fromIndex(
+              json['lastPrize'],
+              isTombolino: json['lastPrize'] == 100,
+            )
+          : null,
     );
   }
 

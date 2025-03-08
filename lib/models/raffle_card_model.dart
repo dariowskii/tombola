@@ -17,8 +17,10 @@ class RaffleCardModel {
 
   void _setup() {
     final random = Random();
-    final numbers =
-        List<int>.generate(kMaxExtractableNumbers, (index) => index + 1);
+    final numbers = List<int>.generate(
+      kMaxExtractableNumbers,
+      (index) => index + 1,
+    );
     final numberColumns = List.generate(9, (index) {
       final max = (index + 1) * 10;
       final min = max - 10;
@@ -30,42 +32,47 @@ class RaffleCardModel {
 
     while (firstRow.toSet().length < 6) {
       final column = random.nextInt(9);
-      final number = numberColumns[column]
-          .removeAt(random.nextInt(numberColumns[column].length));
+      final number = numberColumns[column].removeAt(
+        random.nextInt(numberColumns[column].length),
+      );
       firstRow[column] = number;
     }
 
     while (secondRow.toSet().length < 6) {
       final column = random.nextInt(9);
-      final number = numberColumns[column]
-          .removeAt(random.nextInt(numberColumns[column].length));
+      final number = numberColumns[column].removeAt(
+        random.nextInt(numberColumns[column].length),
+      );
       secondRow[column] = number;
     }
 
     while (thirdRow.toSet().length < 6) {
       final column = random.nextInt(9);
-      final number = numberColumns[column]
-          .removeAt(random.nextInt(numberColumns[column].length));
+      final number = numberColumns[column].removeAt(
+        random.nextInt(numberColumns[column].length),
+      );
       thirdRow[column] = number;
     }
   }
 
   factory RaffleCardModel.fromJson(Map<String, dynamic> json) {
     final raffleCard = RaffleCardModel();
-    raffleCard.firstRow
-        .setAll(0, (json['firstRow'] as List).map((e) => e as int).toList());
-    raffleCard.secondRow
-        .setAll(0, (json['secondRow'] as List).map((e) => e as int).toList());
-    raffleCard.thirdRow
-        .setAll(0, (json['thirdRow'] as List).map((e) => e as int).toList());
+    raffleCard.firstRow.setAll(
+      0,
+      (json['firstRow'] as List).map((e) => e as int).toList(),
+    );
+    raffleCard.secondRow.setAll(
+      0,
+      (json['secondRow'] as List).map((e) => e as int).toList(),
+    );
+    raffleCard.thirdRow.setAll(
+      0,
+      (json['thirdRow'] as List).map((e) => e as int).toList(),
+    );
     return raffleCard;
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'firstRow': firstRow,
-      'secondRow': secondRow,
-      'thirdRow': thirdRow,
-    };
+    return {'firstRow': firstRow, 'secondRow': secondRow, 'thirdRow': thirdRow};
   }
 }

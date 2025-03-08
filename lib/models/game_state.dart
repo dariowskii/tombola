@@ -4,10 +4,7 @@ class GameState {
   final List<int> extractedNumbers;
   final List<User> users;
 
-  GameState({
-    required this.extractedNumbers,
-    required this.users,
-  });
+  GameState({required this.extractedNumbers, required this.users});
 
   factory GameState.fromJson(Map<String, dynamic> json) {
     return GameState(

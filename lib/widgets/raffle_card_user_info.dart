@@ -23,11 +23,7 @@ class RaffleCardUserInfo extends StatelessWidget {
         border: Border.all(color: Colors.black12),
         borderRadius: BorderRadius.circular(8),
         boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 4,
-            offset: Offset(0, 2),
-          ),
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
         ],
       ),
       child: Padding(
@@ -51,7 +47,7 @@ class RaffleCardUserInfo extends StatelessWidget {
                     onPressed: onEditUser,
                     icon: const Icon(Icons.edit),
                   ),
-                ]
+                ],
               ],
             ),
             const Divider(),
@@ -82,8 +78,8 @@ class RaffleCardUserInfo extends StatelessWidget {
                 },
                 separatorBuilder: (context, index) => const Divider(),
                 itemCount: user.raffleCards.length,
-              )
-            ]
+              ),
+            ],
           ],
         ),
       ),

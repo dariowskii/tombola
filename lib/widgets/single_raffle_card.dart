@@ -20,37 +20,35 @@ class SingleRaffleCard extends StatelessWidget {
       crossAxisSpacing: 0,
       mainAxisSpacing: 0,
       crossAxisCount: 9,
-      children: raffleCard.rows.map(
-        (number) {
-          final isExtracted = extractedNumbers.contains(number);
-          return Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black45),
-            ),
-            child: number == 0
-                ? const SizedBox()
-                : Center(
-                    child: Container(
-                      padding: EdgeInsets.all(number < 10 ? 7 : 5),
-                      decoration: isExtracted
-                          ? const BoxDecoration(
-                              color: Colors.green,
-                              shape: BoxShape.circle,
-                            )
-                          : null,
-                      child: Text(
-                        number.toString(),
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: isExtracted ? FontWeight.bold : null,
-                          color: isExtracted ? Colors.white : null,
-                        ),
+      children: raffleCard.rows.map((number) {
+        final isExtracted = extractedNumbers.contains(number);
+        return Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black45),
+          ),
+          child: number == 0
+              ? const SizedBox()
+              : Center(
+                  child: Container(
+                    padding: EdgeInsets.all(number < 10 ? 7 : 5),
+                    decoration: isExtracted
+                        ? const BoxDecoration(
+                            color: Colors.green,
+                            shape: BoxShape.circle,
+                          )
+                        : null,
+                    child: Text(
+                      number.toString(),
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: isExtracted ? FontWeight.bold : null,
+                        color: isExtracted ? Colors.white : null,
                       ),
                     ),
                   ),
-          );
-        },
-      ).toList(),
+                ),
+        );
+      }).toList(),
     );
   }
 }
