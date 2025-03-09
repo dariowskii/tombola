@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:tombola/utils/extensions.dart';
 
 const kRaffleCardRowNumber = 3;
 const kRaffleCardColumnNumber = 9;
 const kRaffleCardSize = 30;
 
 const kMaxExtractableNumbers = 90;
+
+Color kLastExtractedColor(BuildContext context) =>
+    context.isDarkMode ? Colors.greenAccent : Colors.green;
 
 // ASSETS
 
