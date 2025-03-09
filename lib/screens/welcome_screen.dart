@@ -7,7 +7,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome to the app!'),
+        title: const Text('Tombola!'),
       ),
       body: Center(
         child: ElevatedButton(
