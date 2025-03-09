@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tombola/screens/admin_screen.dart';
 import 'package:tombola/screens/login_screen.dart';
-import 'package:tombola/screens/welcome_screen.dart';
+import 'package:tombola/features/welcome_screen/presentation/welcome_screen.dart';
 
 part 'routes.g.dart';
 
