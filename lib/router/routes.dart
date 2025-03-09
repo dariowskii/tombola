@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tombola/features/admin_game_session_screen/presentation/admin_game_session_screen.dart';
 import 'package:tombola/features/game_session_screen/presentation/game_session_screen.dart';
 import 'package:tombola/features/admin_screen/presentation/admin_screen.dart';
 import 'package:tombola/screens/login_screen.dart';
@@ -75,6 +76,9 @@ class GameSessionRoute extends GoRouteData {
 
 @TypedGoRoute<AdminRoute>(
   path: '/admin',
+  routes: [
+    TypedGoRoute<AdminGameSessionRoute>(path: 'session/:id'),
+  ],
 )
 class AdminRoute extends GoRouteData {
   const AdminRoute();
@@ -91,5 +95,30 @@ class AdminRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return const AdminScreen();
+  }
+}
+
+class AdminGameSessionRoute extends GoRouteData {
+  const AdminGameSessionRoute({
+    required this.id,
+  });
+
+  final String id;
+
+  @override
+  FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
+    if (FirebaseAuth.instance.currentUser == null) {
+      return const WelcomeRoute().location;
+    }
+    if (id.isEmpty) {
+      return const AdminRoute().location;
+    }
+
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return AdminGameSessionScreen(sessionId: id);
   }
 }
