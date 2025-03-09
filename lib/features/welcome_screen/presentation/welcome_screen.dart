@@ -97,16 +97,25 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
     final gameSession = await ref.read(checkCodeProvider(code).future);
     if (!mounted) return;
 
-    if (gameSession != null) {
-      // Redirect to session with code
+    if (gameSession == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Codice non valido'),
+        ),
+      );
       return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Codice non valido'),
-      ),
-    );
+    if (!gameSession.isActive) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Sessione non attiva'),
+        ),
+      );
+      return;
+    }
+
+    // TODO: redirect to game screen with gameSession
   }
 
   @override
