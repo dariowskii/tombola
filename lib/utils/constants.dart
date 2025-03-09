@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 const kRaffleCardRowNumber = 3;
 const kRaffleCardColumnNumber = 9;
 const kRaffleCardSize = 30;
@@ -22,4 +24,7 @@ enum Spacing {
 
   const Spacing(this.value);
   final double value;
+
+  SizedBox get h => SizedBox(height: value);
+  SizedBox get w => SizedBox(width: value);
 }
