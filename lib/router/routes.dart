@@ -14,7 +14,6 @@ part 'routes.g.dart';
   path: '/',
   routes: [
     TypedGoRoute<LoginRoute>(path: 'login'),
-    TypedGoRoute<AdminRoute>(path: 'admin'),
     TypedGoRoute<GameSessionRoute>(path: 'game'),
   ],
 )
@@ -45,24 +44,6 @@ class LoginRoute extends GoRouteData {
   }
 }
 
-class AdminRoute extends GoRouteData {
-  const AdminRoute();
-
-  @override
-  FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
-    if (FirebaseAuth.instance.currentUser == null) {
-      return const WelcomeRoute().location;
-    }
-
-    return null;
-  }
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const AdminScreen();
-  }
-}
-
 class GameSessionRoute extends GoRouteData {
   const GameSessionRoute({
     this.session,
@@ -83,5 +64,32 @@ class GameSessionRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return GameSessionScreen(sessionId: session!);
+  }
+}
+
+/*
+* ------------------
+*    ADMIN ROUTE
+* ------------------
+*/
+
+@TypedGoRoute<AdminRoute>(
+  path: '/admin',
+)
+class AdminRoute extends GoRouteData {
+  const AdminRoute();
+
+  @override
+  FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
+    if (FirebaseAuth.instance.currentUser == null) {
+      return const WelcomeRoute().location;
+    }
+
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const AdminScreen();
   }
 }
