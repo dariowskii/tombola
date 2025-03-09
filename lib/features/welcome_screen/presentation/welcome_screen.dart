@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:tombola/features/welcome_screen/presentation/welcome_background.dart';
 import 'package:tombola/router/routes.dart';
-import 'package:tombola/utils/extensions.dart';
+import 'package:tombola/utils/constants.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -28,9 +28,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         children: [
           const WelcomeBackground(),
           const Spacer(),
-          Text(
-            'Welcome to Tombola!',
-            style: context.textTheme.titleLarge,
+          const Text(
+            'ML TOMBOLA!',
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(Spacing.medium.value),
+            child: const Text(
+              'Il gioco della tombola di\nMachine Learning Modena 🥳',
+              textAlign: TextAlign.center,
+            ),
           ),
           const Spacer(),
           FilledButton(
