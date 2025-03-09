@@ -30,8 +30,15 @@ class TombolaApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       title: 'Tombola!',
       routerConfig: ref.watch(routerProvider),
+      darkTheme: ThemeData.from(
+        colorScheme: const ColorScheme.dark(
+          primary: Colors.blueAccent,
+        ),
+      ),
       theme: ThemeData.from(
-        colorScheme: const ColorScheme.light(primary: Colors.redAccent),
+        colorScheme: const ColorScheme.light(
+          primary: Colors.blue,
+        ),
       ),
     );
   }
