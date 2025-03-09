@@ -134,8 +134,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
       return;
     }
 
-    // TODO: redirect to game screen with gameSession
-    Logger.general.debug(gameSession);
+    GameSessionRoute(session: gameSession.id).go(context);
   }
 
   @override
