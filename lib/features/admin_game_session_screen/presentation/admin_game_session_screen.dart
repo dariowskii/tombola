@@ -116,41 +116,49 @@ class _AdminGameSessionScreenState extends State<AdminGameSessionScreen> {
             padding: EdgeInsets.all(
               Spacing.medium.value,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  session.eventName,
-                  style: context.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    session.eventName,
+                    style: context.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Spacing.medium.h,
-                Text('Codice: ${session.id}'),
-                Text('Stato: ${session.isActive ? 'Attiva' : 'Inattiva'}'),
-                Spacing.medium.h,
-                ExtractionHistory(
-                  extractedNumbers: session.extractedNumbers,
-                  scrollController: _historyScrollController,
-                ),
-                Spacing.medium.h,
-                MasterBingoTable(
-                  extractedNumbers: session.extractedNumbers,
-                ),
-                Spacing.large.h,
-                SizedBox(
-                  width: double.infinity,
-                  child: FilledButton(
-                    onPressed: !session.isActive ||
-                            session.extractedNumbers.length >= 90
-                        ? null
-                        : () => _extractNumber(
-                              extractedNumbers: session.extractedNumbers,
-                            ),
-                    child: const Text('Estrai'),
+                  Spacing.medium.h,
+                  Text(
+                    'Codice: ${session.id}',
+                    style: context.textTheme.bodySmall,
                   ),
-                ),
-              ],
+                  Text(
+                    'Stato: ${session.isActive ? 'Attiva' : 'Inattiva'}',
+                    style: context.textTheme.bodySmall,
+                  ),
+                  Spacing.medium.h,
+                  ExtractionHistory(
+                    extractedNumbers: session.extractedNumbers,
+                    scrollController: _historyScrollController,
+                  ),
+                  Spacing.medium.h,
+                  MasterBingoTable(
+                    extractedNumbers: session.extractedNumbers,
+                  ),
+                  Spacing.large.h,
+                  SizedBox(
+                    width: double.infinity,
+                    child: FilledButton(
+                      onPressed: !session.isActive ||
+                              session.extractedNumbers.length >= 90
+                          ? null
+                          : () => _extractNumber(
+                                extractedNumbers: session.extractedNumbers,
+                              ),
+                      child: const Text('Estrai'),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         },
