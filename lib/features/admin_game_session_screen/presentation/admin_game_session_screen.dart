@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tombola/features/admin_game_session_screen/presentation/master_bingo_table.dart';
@@ -20,6 +22,8 @@ class AdminGameSessionScreen extends StatefulWidget {
 
 class _AdminGameSessionScreenState extends State<AdminGameSessionScreen> {
   late final _historyScrollController = ScrollController();
+  late final Stream<DocumentSnapshot<Object?>> _snapshot =
+      FirebaseFirestore.instance.sessions.doc(widget.sessionId).snapshots();
 
   void _animateHistoryScroll() {
     Future.delayed(const Duration(milliseconds: 200), () {
@@ -35,6 +39,37 @@ class _AdminGameSessionScreenState extends State<AdminGameSessionScreen> {
     });
   }
 
+  void _extractNumber({
+    required List<int> extractedNumbers,
+  }) {
+    if (extractedNumbers.length >= 90) {
+      return;
+    }
+
+    if (extractedNumbers.isEmpty) {
+      final random = Random();
+      final number = random.nextInt(90) + 1;
+      FirebaseFirestore.instance.sessions.doc(widget.sessionId).update({
+        'extractedNumbers': FieldValue.arrayUnion([number]),
+      });
+      return;
+    }
+
+    final extractableNumbers = kExtractableNumbers
+        .where(
+          (element) => !extractedNumbers.contains(element),
+        )
+        .toList();
+
+    extractableNumbers.shuffle();
+    extractableNumbers.shuffle();
+
+    final number = extractableNumbers.first;
+    FirebaseFirestore.instance.sessions.doc(widget.sessionId).update({
+      'extractedNumbers': FieldValue.arrayUnion([number]),
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,9 +77,7 @@ class _AdminGameSessionScreenState extends State<AdminGameSessionScreen> {
         title: const Text('Tombola!'),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance.sessions
-            .doc(widget.sessionId)
-            .snapshots(),
+        stream: _snapshot,
         builder: (context, asyncSnapshot) {
           if (asyncSnapshot.hasError) {
             return Center(
@@ -99,6 +132,16 @@ class _AdminGameSessionScreenState extends State<AdminGameSessionScreen> {
                 Spacing.medium.h,
                 MasterBingoTable(
                   extractedNumbers: session.extractedNumbers,
+                ),
+                Spacing.large.h,
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: () => _extractNumber(
+                      extractedNumbers: session.extractedNumbers,
+                    ),
+                    child: const Text('Estrai'),
+                  ),
                 ),
               ],
             ),
