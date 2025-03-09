@@ -220,10 +220,10 @@ class _HomeScreenState extends State<HomeScreen> {
               lastExtractedNumber:
                   _extractedNumbers.isEmpty ? 0 : _extractedNumbers.last,
             ),
-            ExtractionHistory(
-              extractedNumbers: _extractedNumbers,
-              scrollController: _historyScrollController,
-            ),
+            // ExtractionHistory(
+            //   extractedNumbers: _extractedNumbers,
+            //   scrollController: _historyScrollController,
+            // ),
             RaffleCardHeader(
               onTapAdd: _askWhoNeedRaffleCard,
               canAddTables: _extractedNumbers.isEmpty && _users.isNotEmpty,
