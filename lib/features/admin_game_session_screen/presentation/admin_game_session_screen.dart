@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,8 +23,42 @@ class AdminGameSessionScreen extends StatefulWidget {
 
 class _AdminGameSessionScreenState extends State<AdminGameSessionScreen> {
   late final _historyScrollController = ScrollController();
-  late final Stream<DocumentSnapshot<Object?>> _snapshot =
+  late Stream<DocumentSnapshot<Object?>>? _snapshot =
       FirebaseFirestore.instance.sessions.doc(widget.sessionId).snapshots();
+  late StreamSubscription<DocumentSnapshot<Object?>>? _snapshotSubscription;
+
+  GameSession? _gameSession;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _listenSnapshot();
+    });
+  }
+
+  @override
+  void dispose() {
+    _historyScrollController.dispose();
+    _snapshot = null;
+    _snapshotSubscription?.cancel();
+    _snapshotSubscription = null;
+    super.dispose();
+  }
+
+  void _listenSnapshot() {
+    _snapshotSubscription = _snapshot?.listen((event) {
+      final sessionData = event.data() as Map<String, dynamic>;
+      sessionData['id'] = event.id;
+
+      final session = GameSession.fromJson(sessionData);
+      setState(() {
+        _gameSession = session;
+        _animateHistoryScroll();
+      });
+    });
+  }
 
   void _animateHistoryScroll() {
     Future.delayed(200.ms, () {
@@ -76,92 +111,77 @@ class _AdminGameSessionScreenState extends State<AdminGameSessionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final gameSession = _gameSession;
+    if (gameSession == null) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tombola!'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              FirebaseFirestore.instance.sessions.doc(widget.sessionId).update({
+                'isActive': !gameSession.isActive,
+              });
+            },
+            icon: Icon(gameSession.isActive ? Icons.stop : Icons.play_arrow),
+          ),
+        ],
       ),
-      body: StreamBuilder(
-        stream: _snapshot,
-        builder: (context, asyncSnapshot) {
-          if (asyncSnapshot.hasError) {
-            return Center(
-              child: Text(
-                'Errore: ${asyncSnapshot.error}',
-                style: context.textTheme.bodyLarge,
+      body: Padding(
+        padding: EdgeInsets.all(
+          Spacing.medium.value,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                gameSession.eventName,
+                style: context.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            );
-          }
-
-          if (asyncSnapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          if (!asyncSnapshot.hasData) {
-            return const Center(
-              child: Text('Sessione non trovata'),
-            );
-          }
-
-          final sessionData =
-              asyncSnapshot.data!.data() as Map<String, dynamic>;
-          sessionData['id'] = asyncSnapshot.data!.id;
-
-          final session = GameSession.fromJson(sessionData);
-
-          _animateHistoryScroll();
-
-          return Padding(
-            padding: EdgeInsets.all(
-              Spacing.medium.value,
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    session.eventName,
-                    style: context.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Spacing.medium.h,
-                  Text(
-                    'Codice: ${session.id}',
-                    style: context.textTheme.bodySmall,
-                  ),
-                  Text(
-                    'Stato: ${session.isActive ? 'Attiva' : 'Inattiva'}',
-                    style: context.textTheme.bodySmall,
-                  ),
-                  Spacing.medium.h,
-                  ExtractionHistory(
-                    extractedNumbers: session.extractedNumbers,
-                    scrollController: _historyScrollController,
-                  ),
-                  Spacing.medium.h,
-                  MasterBingoTable(
-                    extractedNumbers: session.extractedNumbers,
-                  ),
-                  Spacing.large.h,
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton(
-                      onPressed: !session.isActive ||
-                              session.extractedNumbers.length >= 90
-                          ? null
-                          : () => _extractNumber(
-                                extractedNumbers: session.extractedNumbers,
-                              ),
-                      child: const Text('Estrai'),
-                    ),
-                  ),
-                ],
+              Spacing.medium.h,
+              Text(
+                'Codice: ${gameSession.id}',
+                style: context.textTheme.bodySmall,
               ),
-            ),
-          );
-        },
+              Text(
+                'Stato: ${gameSession.isActive ? 'Attiva' : 'Inattiva'}',
+                style: context.textTheme.bodySmall,
+              ),
+              Spacing.medium.h,
+              ExtractionHistory(
+                extractedNumbers: gameSession.extractedNumbers,
+                scrollController: _historyScrollController,
+              ),
+              Spacing.medium.h,
+              MasterBingoTable(
+                extractedNumbers: gameSession.extractedNumbers,
+              ),
+              Spacing.large.h,
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: !gameSession.isActive ||
+                          gameSession.extractedNumbers.length >= 90
+                      ? null
+                      : () => _extractNumber(
+                            extractedNumbers: gameSession.extractedNumbers,
+                          ),
+                  child: const Text('Estrai'),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
