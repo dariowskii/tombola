@@ -51,19 +51,26 @@ class SessionsList extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView.separated(
-                itemCount: sessions.length,
-                padding: EdgeInsets.all(
-                  Spacing.medium.value,
-                ),
-                separatorBuilder: (_, __) => Spacing.small.h,
-                itemBuilder: (context, index) {
-                  final session = sessions[index];
-                  return SessionCardPreview(
-                    session: session,
-                  );
-                },
-              ),
+              child: sessions.isEmpty
+                  ? Center(
+                      child: Text(
+                        'Nessuna sessione trovata',
+                        style: context.textTheme.bodyLarge,
+                      ),
+                    )
+                  : ListView.separated(
+                      itemCount: sessions.length,
+                      padding: EdgeInsets.all(
+                        Spacing.medium.value,
+                      ),
+                      separatorBuilder: (_, __) => Spacing.small.h,
+                      itemBuilder: (context, index) {
+                        final session = sessions[index];
+                        return SessionCardPreview(
+                          session: session,
+                        );
+                      },
+                    ),
             ),
           ],
         );
