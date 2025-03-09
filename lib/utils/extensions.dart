@@ -9,6 +9,8 @@ extension BuildContextExtension on BuildContext {
   TextTheme get textTheme => theme.textTheme;
   ColorScheme get colorScheme => theme.colorScheme;
 
+  bool get isDarkMode => theme.brightness == Brightness.dark;
+
   void showSnackBar(String message) {
     ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
