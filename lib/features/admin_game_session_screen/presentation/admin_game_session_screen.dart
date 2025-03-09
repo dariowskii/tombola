@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:tombola/features/admin_game_session_screen/data/extract_number_provider.dart';
+import 'package:tombola/features/admin_game_session_screen/data/update_active_session.dart';
 import 'package:tombola/features/admin_game_session_screen/presentation/master_bingo_table.dart';
 import 'package:tombola/models/game_session.dart';
 import 'package:tombola/utils/constants.dart';
@@ -116,9 +117,12 @@ class _AdminGameSessionScreenState
         actions: [
           IconButton(
             onPressed: () {
-              FirebaseFirestore.instance.sessions.doc(widget.sessionId).update({
-                'isActive': !gameSession.isActive,
-              });
+              ref.read(
+                setActiveSessionProvider(
+                  sessionId: gameSession.id,
+                  isActive: !gameSession.isActive,
+                ),
+              );
             },
             icon: Icon(gameSession.isActive ? Icons.stop : Icons.play_arrow),
           ),
