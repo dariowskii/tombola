@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:tombola/features/welcome_screen/presentation/insert_code_manually_dialog.dart';
 import 'package:tombola/features/welcome_screen/presentation/welcome_background.dart';
 import 'package:tombola/router/routes.dart';
 import 'package:tombola/utils/constants.dart';
@@ -75,47 +76,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     // TODO: implement
   }
 
-  void _openCodeInput() {
+  void _openCodeInput() async {
     Navigator.pop(context);
+    await Future.delayed(300.ms);
+    if (!mounted) return;
 
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: const Text('Inserisci il codice'),
-          content: TextField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              hintText: 'Codice',
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(
-                'Annulla',
-                style: TextStyle(
-                  color: context.textTheme.titleLarge?.color,
-                ),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-
-                // TODO: check code and redirect to the game
-              },
-              child: const Text('Conferma'),
-            ),
-          ],
+        return InsertCodeManuallyDialog(
+          onCodeInserted: _checkCodeAndRedirect,
         );
       },
     );
   }
+
+  void _checkCodeAndRedirect(String code) {}
 
   @override
   Widget build(BuildContext context) {
