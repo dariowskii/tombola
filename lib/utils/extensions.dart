@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 extension BuildContextExtension on BuildContext {
@@ -17,4 +18,8 @@ extension DurationExtensions on num {
   Duration get minutes => (this * 1000 * 1000 * 60).microseconds;
   Duration get hours => (this * 1000 * 1000 * 60 * 60).microseconds;
   Duration get days => (this * 1000 * 1000 * 60 * 60 * 24).microseconds;
+}
+
+extension FirestoreCollectionExtensions on FirebaseFirestore {
+  CollectionReference get sessions => collection('sessions');
 }
