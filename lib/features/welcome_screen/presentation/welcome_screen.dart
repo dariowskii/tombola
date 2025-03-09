@@ -1,19 +1,21 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tombola/features/welcome_screen/data/check_session_code_provider.dart';
 import 'package:tombola/features/welcome_screen/presentation/insert_code_manually_dialog.dart';
 import 'package:tombola/features/welcome_screen/presentation/welcome_background.dart';
 import 'package:tombola/router/routes.dart';
 import 'package:tombola/utils/constants.dart';
 import 'package:tombola/utils/extensions.dart';
 
-class WelcomeScreen extends StatefulWidget {
+class WelcomeScreen extends ConsumerStatefulWidget {
   const WelcomeScreen({super.key});
 
   @override
-  State<WelcomeScreen> createState() => _WelcomeScreenState();
+  ConsumerState<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   @override
   void initState() {
     super.initState();
@@ -91,7 +93,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
   }
 
-  void _checkCodeAndRedirect(String code) {}
+  void _checkCodeAndRedirect(String code) async {
+    final checkedCode = await ref.read(checkCodeProvider(code).future);
+    if (!mounted) return;
+
+    if (checkedCode != null) {
+      // Redirect to session with code
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Codice non valido'),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
