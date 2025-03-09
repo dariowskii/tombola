@@ -43,12 +43,27 @@ class SessionCardPreview extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              session.eventName,
-              style: context.textTheme.titleLarge?.copyWith(
-                color: textColor,
-                fontWeight: FontWeight.bold,
-              ),
+            Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    session.eventName,
+                    style: context.textTheme.titleLarge?.copyWith(
+                      color: textColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Spacing.medium.w,
+                if (session.isActive)
+                  const Icon(
+                    Icons.circle,
+                    color: Colors.green,
+                    size: 16,
+                  ),
+              ],
             ),
             Spacing.small.h,
             Text.rich(
