@@ -94,10 +94,10 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   }
 
   void _checkCodeAndRedirect(String code) async {
-    final checkedCode = await ref.read(checkCodeProvider(code).future);
+    final gameSession = await ref.read(checkCodeProvider(code).future);
     if (!mounted) return;
 
-    if (checkedCode != null) {
+    if (gameSession != null) {
       // Redirect to session with code
       return;
     }
