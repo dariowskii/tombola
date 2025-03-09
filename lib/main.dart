@@ -27,7 +27,6 @@ class TombolaApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
       title: 'Tombola!',
       routerConfig: ref.watch(routerProvider),
       darkTheme: ThemeData.from(
