@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:tombola/features/admin_game_session_screen/data/extract_number_provider.dart';
 import 'package:tombola/features/admin_game_session_screen/presentation/master_bingo_table.dart';
 import 'package:tombola/models/game_session.dart';
@@ -25,7 +26,7 @@ class AdminGameSessionScreen extends ConsumerStatefulWidget {
 
 class _AdminGameSessionScreenState
     extends ConsumerState<AdminGameSessionScreen> {
-  late final _historyScrollController = ScrollController();
+  late final _historyScrollController = ItemScrollController();
   late Stream<DocumentSnapshot<Object?>>? _snapshot =
       FirebaseFirestore.instance.sessions.doc(widget.sessionId).snapshots();
   late StreamSubscription<DocumentSnapshot<Object?>>? _snapshotSubscription;
@@ -43,7 +44,6 @@ class _AdminGameSessionScreenState
 
   @override
   void dispose() {
-    _historyScrollController.dispose();
     _snapshot = null;
     _snapshotSubscription?.cancel();
     _snapshotSubscription = null;
@@ -56,9 +56,16 @@ class _AdminGameSessionScreenState
       sessionData['id'] = event.id;
 
       final session = GameSession.fromJson(sessionData);
+
+      final hasNewExtraction = _gameSession == null ||
+          _gameSession!.extractedNumbers.length !=
+              session.extractedNumbers.length;
+
       setState(() {
         _gameSession = session;
-        _animateHistoryScroll();
+        if (hasNewExtraction) {
+          _animateHistoryScroll();
+        }
       });
     });
   }
@@ -69,12 +76,9 @@ class _AdminGameSessionScreenState
         return;
       }
 
-      if (_historyScrollController.positions.isEmpty) {
-        return;
-      }
-
-      _historyScrollController.animateTo(
-        _historyScrollController.position.maxScrollExtent,
+      _historyScrollController.scrollTo(
+        index: _gameSession!.extractedNumbers.length - 1,
+        alignment: 0.85,
         duration: 500.ms,
         curve: Curves.easeOut,
       );
@@ -146,7 +150,7 @@ class _AdminGameSessionScreenState
               Spacing.medium.h,
               ExtractionHistory(
                 extractedNumbers: gameSession.extractedNumbers,
-                scrollController: _historyScrollController,
+                itemScrollController: _historyScrollController,
               ),
               Spacing.medium.h,
               MasterBingoTable(
