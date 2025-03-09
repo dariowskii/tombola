@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:tombola/utils/constants.dart';
 import 'package:tombola/utils/extensions.dart';
 
@@ -6,11 +7,11 @@ class ExtractionHistory extends StatelessWidget {
   const ExtractionHistory({
     super.key,
     required this.extractedNumbers,
-    required this.scrollController,
+    required this.itemScrollController,
   });
 
   final List<int> extractedNumbers;
-  final ScrollController scrollController;
+  final ItemScrollController itemScrollController;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +29,8 @@ class ExtractionHistory extends StatelessWidget {
           height: 30,
           child: extractedNumbers.isEmpty
               ? const Text('- - -')
-              : ListView.separated(
-                  controller: scrollController,
+              : ScrollablePositionedList.separated(
+                  itemScrollController: itemScrollController,
                   scrollDirection: Axis.horizontal,
                   itemCount: extractedNumbers.length,
                   itemBuilder: (context, index) {
