@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:tombola/models/game_session.dart';
 import 'package:tombola/utils/extensions.dart';
+import 'package:tombola/utils/logger.dart';
 
 part 'check_session_code_provider.g.dart';
 
@@ -15,11 +16,23 @@ Future<GameSession?> checkCode(Ref ref, String code) async {
     if (docSnapshot.exists) {
       final data = docSnapshot.data() as Map<String, dynamic>;
       data['id'] = docSnapshot.id;
-      return GameSession.fromJson(data);
+      var session = GameSession.fromJson(data);
+
+      final raffles = await FirebaseFirestore.instance.getRaffles(code).get();
+      session = session.copyWith(
+        raffleCards: raffles.docs.map((doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          data['id'] = doc.id;
+          return RaffleCard.fromJson(data);
+        }).toList(),
+      );
+
+      return session;
     }
 
     return null;
   } catch (e) {
+    Logger.general.error(e);
     return null;
   }
 }
