@@ -12,3 +12,14 @@ enum AssetMedia {
   const AssetMedia(this.path);
   final String path;
 }
+
+// SPACING
+
+enum Spacing {
+  small(8.0),
+  medium(16.0),
+  large(24.0);
+
+  const Spacing(this.value);
+  final double value;
+}
