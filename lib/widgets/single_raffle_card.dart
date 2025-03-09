@@ -3,10 +3,10 @@ import 'package:tombola/models/raffle_card_model.dart';
 
 class SingleRaffleCard extends StatelessWidget {
   const SingleRaffleCard({
-    Key? key,
+    super.key,
     required this.raffleCard,
     required this.extractedNumbers,
-  }) : super(key: key);
+  });
 
   final RaffleCardModel raffleCard;
   final List<int> extractedNumbers;

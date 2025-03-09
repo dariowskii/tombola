@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class RaffleCardHeader extends StatelessWidget {
   const RaffleCardHeader({
-    Key? key,
+    super.key,
     required this.onTapAdd,
     this.canAddTables = true,
-  }) : super(key: key);
+  });
 
   final VoidCallback onTapAdd;
   final bool canAddTables;

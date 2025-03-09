@@ -13,7 +13,7 @@ import 'package:tombola/widgets/raffle_card_header.dart';
 import 'package:tombola/widgets/raffle_card_list.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key, required this.gameState}) : super(key: key);
+  const HomeScreen({super.key, required this.gameState});
 
   final GameState? gameState;
 

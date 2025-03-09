@@ -4,11 +4,11 @@ import 'package:tombola/widgets/single_raffle_card.dart';
 
 class RaffleCardUserInfo extends StatelessWidget {
   const RaffleCardUserInfo({
-    Key? key,
+    super.key,
     required this.user,
     required this.extractedNumbers,
     required this.onEditUser,
-  }) : super(key: key);
+  });
 
   final User user;
   final List<int> extractedNumbers;

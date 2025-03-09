@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LastExtractedNumber extends StatelessWidget {
-  const LastExtractedNumber({Key? key, required this.lastExtractedNumber})
-      : super(key: key);
+  const LastExtractedNumber({super.key, required this.lastExtractedNumber});
 
   final int lastExtractedNumber;
 
