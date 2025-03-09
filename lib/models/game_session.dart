@@ -10,7 +10,6 @@ abstract class GameSession with _$GameSession {
     required bool isActive,
     required String eventName,
     @Default([]) List<int> extractedNumbers,
-    @Default([]) List<RaffleCard> raffleCards,
   }) = _GameSession;
 
   factory GameSession.fromJson(Map<String, dynamic> json) =>
