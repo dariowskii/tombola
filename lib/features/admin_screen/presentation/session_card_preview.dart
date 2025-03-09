@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tombola/models/game_session.dart';
+import 'package:tombola/router/routes.dart';
 import 'package:tombola/utils/constants.dart';
 import 'package:tombola/utils/extensions.dart';
 
@@ -108,7 +109,7 @@ class SessionCardPreview extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: ElevatedButton(
                 onPressed: () {
-                  // TODO: go to session details
+                  AdminGameSessionRoute(id: session.id).go(context);
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: bgColor,
