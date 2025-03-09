@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tombola/features/welcome_screen/presentation/welcome_background.dart';
 import 'package:tombola/router/routes.dart';
 import 'package:tombola/utils/constants.dart';
+import 'package:tombola/utils/extensions.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -19,6 +20,64 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle.light,
     );
+  }
+
+  void _chooseCameraOrTextBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(16),
+        ),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: EdgeInsets.all(Spacing.small.value),
+                child: ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  title: Text(
+                    'Scansiona QR-Code',
+                    style: context.textTheme.labelLarge,
+                  ),
+                  trailing: const Icon(Icons.qr_code),
+                  onTap: _openQRCodeScanner,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(Spacing.small.value),
+                child: ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  title: Text(
+                    'Inserisci codice',
+                    style: context.textTheme.labelLarge,
+                  ),
+                  trailing: const Icon(Icons.keyboard),
+                  onTap: _openCodeInput,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _openQRCodeScanner() {
+    Navigator.pop(context);
+    // TODO: implement
+  }
+
+  void _openCodeInput() {
+    Navigator.pop(context);
+    // TODO: implement
   }
 
   @override
@@ -44,9 +103,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           ),
           const Spacer(),
           FilledButton(
-            onPressed: () {
-              // TODO: open scanner
-            },
+            onPressed: _chooseCameraOrTextBottomSheet,
             child: const Text('Entra in sessione'),
           ),
           const Spacer(),
