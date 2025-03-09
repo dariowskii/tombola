@@ -77,7 +77,44 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   void _openCodeInput() {
     Navigator.pop(context);
-    // TODO: implement
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Inserisci il codice'),
+          content: TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              hintText: 'Codice',
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                'Annulla',
+                style: TextStyle(
+                  color: context.textTheme.titleLarge?.color,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+
+                // TODO: check code and redirect to the game
+              },
+              child: const Text('Conferma'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -104,7 +141,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           const Spacer(),
           FilledButton(
             onPressed: _chooseCameraOrTextBottomSheet,
-            child: const Text('Entra in sessione'),
+            child: const Text('Entra nella sessione'),
           ),
           const Spacer(),
           SafeArea(
