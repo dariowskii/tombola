@@ -135,6 +135,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
     }
 
     // TODO: redirect to game screen with gameSession
+    Logger.general.debug(gameSession);
   }
 
   @override
