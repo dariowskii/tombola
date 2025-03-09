@@ -26,14 +26,18 @@ class _AdminGameSessionScreenState extends State<AdminGameSessionScreen> {
       FirebaseFirestore.instance.sessions.doc(widget.sessionId).snapshots();
 
   void _animateHistoryScroll() {
-    Future.delayed(const Duration(milliseconds: 200), () {
+    Future.delayed(200.ms, () {
+      if (!mounted) {
+        return;
+      }
+
       if (_historyScrollController.positions.isEmpty) {
         return;
       }
 
       _historyScrollController.animateTo(
         _historyScrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 500),
+        duration: 500.ms,
         curve: Curves.easeOut,
       );
     });
@@ -137,9 +141,12 @@ class _AdminGameSessionScreenState extends State<AdminGameSessionScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: FilledButton(
-                    onPressed: () => _extractNumber(
-                      extractedNumbers: session.extractedNumbers,
-                    ),
+                    onPressed: !session.isActive ||
+                            session.extractedNumbers.length >= 90
+                        ? null
+                        : () => _extractNumber(
+                              extractedNumbers: session.extractedNumbers,
+                            ),
                     child: const Text('Estrai'),
                   ),
                 ),
