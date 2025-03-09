@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tombola/features/admin_screen/presentation/sessions_list.dart';
 import 'package:tombola/router/routes.dart';
 import 'package:tombola/utils/extensions.dart';
 
@@ -68,13 +69,12 @@ class _AdminScreenState extends State<AdminScreen> {
           ),
         ],
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // Navigate to the home screen
-          },
-          child: const Text('Go to the home screen'),
-        ),
+      body: const SessionsList(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // TODO: go to create session page
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
