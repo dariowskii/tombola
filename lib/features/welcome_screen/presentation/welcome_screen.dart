@@ -1,12 +1,14 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:tombola/features/welcome_screen/data/check_session_code_provider.dart';
 import 'package:tombola/features/welcome_screen/presentation/insert_code_manually_dialog.dart';
 import 'package:tombola/features/welcome_screen/presentation/welcome_background.dart';
 import 'package:tombola/router/routes.dart';
 import 'package:tombola/utils/constants.dart';
 import 'package:tombola/utils/extensions.dart';
+import 'package:tombola/utils/logger.dart';
 
 class WelcomeScreen extends ConsumerStatefulWidget {
   const WelcomeScreen({super.key});
@@ -73,9 +75,34 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
     );
   }
 
-  void _openQRCodeScanner() {
+  void _openQRCodeScanner() async {
     Navigator.pop(context);
-    // TODO: implement
+    try {
+      final res = await SimpleBarcodeScanner.scanBarcode(
+        context,
+        scanType: ScanType.qr,
+        cancelButtonText: 'Indietro',
+        barcodeAppBar: const BarcodeAppBar(
+          enableBackButton: true,
+          backButtonIcon: Icon(Icons.arrow_back_ios),
+        ),
+        cameraFace: CameraFace.front,
+        scanFormat: ScanFormat.ONLY_QR_CODE,
+        child: SafeArea(
+          child: Container(
+            color: Colors.red,
+            height: 100,
+            width: 100,
+          ),
+        ),
+      );
+
+      if (res != null && res.isNotEmpty && res != '-1') {
+        _checkCodeAndRedirect(res);
+      }
+    } catch (e) {
+      Logger.general.error(e);
+    }
   }
 
   void _openCodeInput() async {
