@@ -10,6 +10,12 @@ const kMaxExtractableNumbers = 90;
 Color kLastExtractedColor(BuildContext context) =>
     context.isDarkMode ? Colors.greenAccent : Colors.green;
 
+final kExtractableNumbers = List.generate(
+  kMaxExtractableNumbers,
+  (index) => index + 1,
+  growable: false,
+);
+
 // ASSETS
 
 enum AssetMedia {
