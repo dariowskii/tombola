@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tombola/features/admin_screen/presentation/session_card_preview.dart';
 import 'package:tombola/models/game_session.dart';
 import 'package:tombola/utils/constants.dart';
 import 'package:tombola/utils/extensions.dart';
@@ -58,11 +59,8 @@ class SessionsList extends StatelessWidget {
                 separatorBuilder: (_, __) => Spacing.small.h,
                 itemBuilder: (context, index) {
                   final session = sessions[index];
-                  return ListTile(
-                    title: Text(
-                      session.eventName,
-                      style: context.textTheme.labelLarge,
-                    ),
+                  return SessionCardPreview(
+                    session: session,
                   );
                 },
               ),
