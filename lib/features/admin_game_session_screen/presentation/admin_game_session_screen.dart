@@ -1,15 +1,16 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:async';
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:tombola/features/admin_game_session_screen/data/extract_number_provider.dart';
 import 'package:tombola/features/admin_game_session_screen/presentation/master_bingo_table.dart';
 import 'package:tombola/models/game_session.dart';
 import 'package:tombola/utils/constants.dart';
 import 'package:tombola/utils/extensions.dart';
 import 'package:tombola/widgets/extraction_history.dart';
 
-class AdminGameSessionScreen extends StatefulWidget {
+class AdminGameSessionScreen extends ConsumerStatefulWidget {
   const AdminGameSessionScreen({
     super.key,
     required this.sessionId,
@@ -18,10 +19,12 @@ class AdminGameSessionScreen extends StatefulWidget {
   final String sessionId;
 
   @override
-  State<AdminGameSessionScreen> createState() => _AdminGameSessionScreenState();
+  ConsumerState<AdminGameSessionScreen> createState() =>
+      _AdminGameSessionScreenState();
 }
 
-class _AdminGameSessionScreenState extends State<AdminGameSessionScreen> {
+class _AdminGameSessionScreenState
+    extends ConsumerState<AdminGameSessionScreen> {
   late final _historyScrollController = ScrollController();
   late Stream<DocumentSnapshot<Object?>>? _snapshot =
       FirebaseFirestore.instance.sessions.doc(widget.sessionId).snapshots();
@@ -78,35 +81,18 @@ class _AdminGameSessionScreenState extends State<AdminGameSessionScreen> {
     });
   }
 
-  void _extractNumber({
-    required List<int> extractedNumbers,
-  }) {
-    if (extractedNumbers.length >= 90) {
+  void _extractNumber() {
+    final gameSession = _gameSession;
+    if (gameSession == null) {
       return;
     }
 
-    if (extractedNumbers.isEmpty) {
-      final random = Random();
-      final number = random.nextInt(90) + 1;
-      FirebaseFirestore.instance.sessions.doc(widget.sessionId).update({
-        'extractedNumbers': FieldValue.arrayUnion([number]),
-      });
-      return;
-    }
-
-    final extractableNumbers = kExtractableNumbers
-        .where(
-          (element) => !extractedNumbers.contains(element),
-        )
-        .toList();
-
-    extractableNumbers.shuffle();
-    extractableNumbers.shuffle();
-
-    final number = extractableNumbers.first;
-    FirebaseFirestore.instance.sessions.doc(widget.sessionId).update({
-      'extractedNumbers': FieldValue.arrayUnion([number]),
-    });
+    ref.read(
+      extractNumberProvider(
+        extractedNumbers: gameSession.extractedNumbers,
+        sessionId: gameSession.id,
+      ),
+    );
   }
 
   @override
@@ -173,9 +159,7 @@ class _AdminGameSessionScreenState extends State<AdminGameSessionScreen> {
                   onPressed: !gameSession.isActive ||
                           gameSession.extractedNumbers.length >= 90
                       ? null
-                      : () => _extractNumber(
-                            extractedNumbers: gameSession.extractedNumbers,
-                          ),
+                      : _extractNumber,
                   child: const Text('Estrai'),
                 ),
               ),
