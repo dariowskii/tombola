@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:tombola/models/timestamp_converter.dart';
 
 part 'game_session.freezed.dart';
 part 'game_session.g.dart';
@@ -9,6 +11,7 @@ abstract class GameSession with _$GameSession {
     required String id,
     required bool isActive,
     required String eventName,
+    @TimestampConverter() required DateTime createdAt,
     @Default([]) List<int> extractedNumbers,
   }) = _GameSession;
 
