@@ -16,6 +16,22 @@ enum AngleType {
         90 => AngleType.bottomRight,
         _ => AngleType.none,
       };
+
+  BorderRadius get borderRadius => switch (this) {
+        AngleType.topLeft => const BorderRadius.only(
+            topLeft: Radius.circular(8),
+          ),
+        AngleType.topRight => const BorderRadius.only(
+            topRight: Radius.circular(8),
+          ),
+        AngleType.bottomLeft => const BorderRadius.only(
+            bottomLeft: Radius.circular(8),
+          ),
+        AngleType.bottomRight => const BorderRadius.only(
+            bottomRight: Radius.circular(8),
+          ),
+        AngleType.none => BorderRadius.zero,
+      };
 }
 
 class MasterBingoTable extends StatelessWidget {
@@ -58,6 +74,7 @@ class MasterBingoTable extends StatelessWidget {
               final isExtracted = extractedNumbers.contains(number);
               final isLastExtracted = extractedNumbers.isNotEmpty &&
                   extractedNumbers.last == number;
+              final angleType = AngleType.fromNumber(number);
               return Container(
                 decoration: BoxDecoration(
                   color: isLastExtracted
@@ -65,7 +82,7 @@ class MasterBingoTable extends StatelessWidget {
                       : isExtracted
                           ? context.colorScheme.primary
                           : context.colorScheme.surface,
-                  borderRadius: BorderRadius.circular(0),
+                  borderRadius: angleType.borderRadius,
                   border: Border.all(
                     color: context.colorScheme.primary,
                     width: isLastExtracted ? 0 : 1,
