@@ -12,7 +12,7 @@ class SessionsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot<Object?>>(
       stream: FirebaseFirestore.instance.sessions
-          .orderBy('isActive', descending: true)
+          .orderBy('createdAt', descending: true)
           .snapshots(),
       builder: (context, asyncSnapshot) {
         if (asyncSnapshot.hasError) {
