@@ -98,20 +98,12 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
     if (!mounted) return;
 
     if (gameSession == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Codice non valido'),
-        ),
-      );
+      context.showSnackBar('Codice non valido');
       return;
     }
 
     if (!gameSession.isActive) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Sessione non attiva'),
-        ),
-      );
+      context.showSnackBar('Sessione non attiva');
       return;
     }
 
