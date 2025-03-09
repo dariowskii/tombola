@@ -30,4 +30,8 @@ extension DurationExtensions on num {
 
 extension FirestoreCollectionExtensions on FirebaseFirestore {
   CollectionReference get sessions => collection('sessions');
+
+  CollectionReference getRaffles(String sessionId) {
+    return sessions.doc(sessionId).collection('raffles');
+  }
 }
