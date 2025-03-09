@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tombola/features/game_session_screen/presentation/game_session_screen.dart';
-import 'package:tombola/screens/admin_screen.dart';
+import 'package:tombola/features/admin_screen/presentation/admin_screen.dart';
 import 'package:tombola/screens/login_screen.dart';
 import 'package:tombola/features/welcome_screen/presentation/welcome_screen.dart';
 
