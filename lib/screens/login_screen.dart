@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tombola/router/routes.dart';
 import 'package:tombola/utils/constants.dart';
 import 'package:tombola/utils/extensions.dart';
-import 'package:tombola/utils/logger.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -43,12 +43,13 @@ class _LoginScreenState extends State<LoginScreen> {
         return;
       }
 
-      final user = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      final _ = await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      if (!mounted) return;
 
-      Logger.general.debug('User: $user');
+      const AdminRoute().go(context);
     } on FirebaseAuthException catch (e) {
       final message = e.message ?? 'Errore sconosciuto';
       if (mounted) {
@@ -89,6 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _emailController,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.emailAddress,
+                    autofillHints: [AutofillHints.email],
                     onTap: _isLogging
                         ? null
                         : () {
@@ -121,8 +123,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextFormField(
                     enabled: !_isLogging,
                     controller: _passwordController,
-                    textInputAction: TextInputAction.next,
+                    textInputAction: TextInputAction.done,
                     keyboardType: TextInputType.visiblePassword,
+                    autofillHints: [AutofillHints.password],
                     obscureText: true,
                     onTap: _isLogging
                         ? null
@@ -135,6 +138,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                     onTapUpOutside: (_) {
                       FocusManager.instance.primaryFocus?.unfocus();
+                    },
+                    onFieldSubmitted: (_) {
+                      _tryLogin();
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
