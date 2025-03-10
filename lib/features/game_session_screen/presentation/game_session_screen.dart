@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class GameSessionScreen extends StatelessWidget {
+class GameSessionScreen extends StatefulWidget {
   const GameSessionScreen({
     super.key,
     required this.sessionId,
@@ -11,9 +11,17 @@ class GameSessionScreen extends StatelessWidget {
   final String raffleId;
 
   @override
+  State<GameSessionScreen> createState() => _GameSessionScreenState();
+}
+
+class _GameSessionScreenState extends State<GameSessionScreen> {
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Sessione di gioco'),
+      ),
+      body: const Center(
         child: Text('Game'),
       ),
     );
