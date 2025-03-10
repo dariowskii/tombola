@@ -32,7 +32,7 @@ class SetupErrorState extends ConsumerWidget {
           Spacing.medium.h,
           FilledButton(
             onPressed: () {
-              ref.invalidate(checkCodeProvider(sessionId));
+              ref.invalidate(getSessionProvider(sessionId));
             },
             child: const Text('Riprova'),
           ),

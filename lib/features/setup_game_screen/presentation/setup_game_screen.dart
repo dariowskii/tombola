@@ -15,7 +15,7 @@ class SetupGameScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncSession =
-        ref.watch(checkCodeProvider(sessionId)).unwrapPrevious();
+        ref.watch(getSessionProvider(sessionId)).unwrapPrevious();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Imposta gioco'),
