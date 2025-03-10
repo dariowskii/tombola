@@ -31,6 +31,7 @@ class ExtractionHistory extends StatelessWidget {
               ? const Text('- - -')
               : ScrollablePositionedList.separated(
                   itemScrollController: itemScrollController,
+                  physics: const ClampingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: extractedNumbers.length,
                   itemBuilder: (context, index) {
