@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
-import 'package:tombola/features/welcome_screen/data/check_session_code_provider.dart';
+import 'package:tombola/providers/check_session_code_provider.dart';
 import 'package:tombola/features/welcome_screen/presentation/insert_code_manually_dialog.dart';
 import 'package:tombola/features/welcome_screen/presentation/welcome_background.dart';
 import 'package:tombola/router/routes.dart';
