@@ -66,26 +66,28 @@ class SessionCardPreview extends StatelessWidget {
                   ),
               ],
             ),
-            Spacing.small.h,
-            Container(
-              decoration: BoxDecoration(
-                color: textColor,
-                borderRadius: BorderRadius.circular(4),
-                border: Border.all(
-                  color: context.colorScheme.primary,
+            if (session.createdAt != null) ...[
+              Spacing.small.h,
+              Container(
+                decoration: BoxDecoration(
+                  color: textColor,
+                  borderRadius: BorderRadius.circular(4),
+                  border: Border.all(
+                    color: context.colorScheme.primary,
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 4,
+                ),
+                child: Text(
+                  session.createdAt!.formatted,
+                  style: context.textTheme.labelSmall?.copyWith(
+                    color: bgColor,
+                  ),
                 ),
               ),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 4,
-              ),
-              child: Text(
-                session.createdAt.formatted,
-                style: context.textTheme.labelSmall?.copyWith(
-                  color: bgColor,
-                ),
-              ),
-            ),
+            ],
             Spacing.small.h,
             Text.rich(
               TextSpan(

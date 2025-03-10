@@ -163,10 +163,12 @@ class _AdminGameSessionScreenState
                 ),
               ),
               Spacing.medium.h,
-              Text(
-                'Data: ${gameSession.createdAt.formatted}',
-                style: context.textTheme.bodySmall,
-              ),
+              if (gameSession.createdAt != null) ...[
+                Text(
+                  'Data: ${gameSession.createdAt!.formatted}',
+                  style: context.textTheme.bodySmall,
+                ),
+              ],
               Text(
                 'Stato: ${gameSession.isActive ? 'Attiva' : 'Inattiva'}',
                 style: context.textTheme.bodySmall,
