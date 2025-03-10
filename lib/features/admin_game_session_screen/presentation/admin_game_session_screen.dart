@@ -77,6 +77,10 @@ class _AdminGameSessionScreenState
         return;
       }
 
+      if (_gameSession!.extractedNumbers.isEmpty) {
+        return;
+      }
+
       _historyScrollController.scrollTo(
         index: _gameSession!.extractedNumbers.length - 1,
         alignment: 0.85,
