@@ -104,10 +104,6 @@ class _AdminGameSessionScreenState
     );
   }
 
-  String _formatDate(DateTime date) {
-    return '${date.day}/${date.month}/${date.year}';
-  }
-
   @override
   Widget build(BuildContext context) {
     final gameSession = _gameSession;
@@ -152,7 +148,7 @@ class _AdminGameSessionScreenState
               ),
               Spacing.medium.h,
               Text(
-                'Data: ${_formatDate(gameSession.createdAt)}',
+                'Data: ${gameSession.createdAt.formatted}',
                 style: context.textTheme.bodySmall,
               ),
               Text(
