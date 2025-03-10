@@ -1,21 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tombola/features/admin_screen/data/create_session.dart';
 import 'package:tombola/utils/constants.dart';
 import 'package:tombola/utils/extensions.dart';
 
-class CreateSessionModal extends StatefulWidget {
+class CreateSessionModal extends ConsumerStatefulWidget {
   const CreateSessionModal({super.key});
 
   @override
-  State<CreateSessionModal> createState() => _CreateSessionModalState();
+  ConsumerState<CreateSessionModal> createState() => _CreateSessionModalState();
 }
 
-class _CreateSessionModalState extends State<CreateSessionModal> {
+class _CreateSessionModalState extends ConsumerState<CreateSessionModal> {
   late final _nameController = TextEditingController();
 
   @override
   void dispose() {
     _nameController.dispose();
     super.dispose();
+  }
+
+  void _createSession() async {
+    if (_nameController.text.isEmpty) {
+      return;
+    }
+
+    final eventName = _nameController.text;
+
+    try {
+      final result = await ref.read(
+        createSessionProvider(eventName: eventName).future,
+      );
+      if (!mounted) return;
+
+      if (result) {
+        context.showSnackBar('Sessione creata con successo');
+        return;
+      }
+
+      context.showSnackBar(
+        'Errore durante la creazione della sessione',
+      );
+    } catch (e) {
+      if (mounted) {
+        context.showSnackBar(
+          'Errore: ${e.toString()}',
+        );
+      }
+    } finally {
+      if (mounted) {
+        Navigator.pop(context);
+      }
+    }
   }
 
   @override
@@ -63,9 +99,7 @@ class _CreateSessionModalState extends State<CreateSessionModal> {
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(_nameController.text);
-                  },
+                  onPressed: _createSession,
                   child: const Text('Crea'),
                 ),
               ),
