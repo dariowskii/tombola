@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tombola/features/admin_game_session_screen/presentation/admin_game_session_screen.dart';
 import 'package:tombola/features/game_session_screen/presentation/game_session_screen.dart';
 import 'package:tombola/features/admin_screen/presentation/admin_screen.dart';
+import 'package:tombola/features/setup_game_screen/presentation/setup_game_screen.dart';
 import 'package:tombola/screens/login_screen.dart';
 import 'package:tombola/features/welcome_screen/presentation/welcome_screen.dart';
 
@@ -15,7 +16,8 @@ part 'routes.g.dart';
   path: '/',
   routes: [
     TypedGoRoute<LoginRoute>(path: 'login'),
-    TypedGoRoute<GameSessionRoute>(path: 'game'),
+    TypedGoRoute<SetupGameRoute>(path: 'setup-session/:id'),
+    TypedGoRoute<GameSessionRoute>(path: 'game/:id/raffle/:raffleId'),
   ],
 )
 class WelcomeRoute extends GoRouteData {
@@ -45,17 +47,16 @@ class LoginRoute extends GoRouteData {
   }
 }
 
-class GameSessionRoute extends GoRouteData {
-  const GameSessionRoute({
-    this.session,
+class SetupGameRoute extends GoRouteData {
+  const SetupGameRoute({
+    required this.id,
   });
 
-  final String? session;
+  final String id;
 
   @override
   FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
-    final sessionId = session;
-    if (sessionId == null || sessionId.isEmpty) {
+    if (id.isEmpty) {
       return const WelcomeRoute().location;
     }
 
@@ -64,7 +65,34 @@ class GameSessionRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return GameSessionScreen(sessionId: session!);
+    return SetupGameScreen(sessionId: id);
+  }
+}
+
+class GameSessionRoute extends GoRouteData {
+  const GameSessionRoute({
+    required this.id,
+    required this.raffleId,
+  });
+
+  final String id;
+  final String raffleId;
+
+  @override
+  FutureOr<String?> redirect(BuildContext context, GoRouterState state) {
+    if (id.isEmpty || raffleId.isEmpty) {
+      return const WelcomeRoute().location;
+    }
+
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return GameSessionScreen(
+      sessionId: id,
+      raffleId: raffleId,
+    );
   }
 }
 
