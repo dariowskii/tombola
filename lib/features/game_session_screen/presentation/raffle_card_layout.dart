@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tombola/utils/angle_type_enum.dart';
 import 'package:tombola/utils/constants.dart';
 import 'package:tombola/utils/extensions.dart';
 
@@ -34,6 +35,8 @@ class RaffleCardLayout extends StatelessWidget {
           final isLastExtracted =
               extractedNumbers.isNotEmpty && extractedNumbers.last == number;
 
+          final angleType = AngleType.fromRaffleCardIndex(index);
+
           return Container(
             decoration: BoxDecoration(
               color: isLastExtracted
@@ -45,6 +48,7 @@ class RaffleCardLayout extends StatelessWidget {
                 color: context.colorScheme.primary,
                 width: 1,
               ),
+              borderRadius: angleType.borderRadius,
             ),
             child: Center(
               child: Text(
