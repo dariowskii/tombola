@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tombola/features/setup_game_screen/data/generate_raffle_card.dart';
 import 'package:tombola/providers/recover_raffle_card.dart';
 import 'package:tombola/router/routes.dart';
 import 'package:tombola/utils/constants.dart';
@@ -149,7 +150,13 @@ class _SetupGameFormState extends ConsumerState<SetupGameForm> {
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (actionType == ActionType.create) {
+                          _generateRaffleCardAndRedirect();
+                        } else {
+                          _recoverRaffleCardFromUsername();
+                        }
+                      },
                       child: const Text('Conferma'),
                     ),
                   ),
@@ -160,6 +167,40 @@ class _SetupGameFormState extends ConsumerState<SetupGameForm> {
         );
       },
     );
+  }
+
+  void _generateRaffleCardAndRedirect() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    Navigator.pop(context);
+    await Future.delayed(300.ms);
+
+    final username = _usernameController.text;
+    _usernameController.clear();
+
+    try {
+      final raffleCard = await ref.read(
+        generateRaffleCardProvider(
+          sessionId: widget.sessionId,
+          username: username,
+        ).future,
+      );
+
+      if (!mounted) {
+        return;
+      }
+
+      GameSessionRoute(
+        id: widget.sessionId,
+        raffleId: raffleCard.id,
+      ).go(context);
+    } catch (e) {
+      if (mounted) {
+        context.showSnackBar(e.toString());
+      }
+    }
   }
 
   @override
