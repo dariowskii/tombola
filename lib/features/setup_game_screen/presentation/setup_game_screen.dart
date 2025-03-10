@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tombola/features/setup_game_screen/data/setup_game_body.dart';
 import 'package:tombola/features/setup_game_screen/presentation/error_state.dart';
 import 'package:tombola/providers/check_session_code_provider.dart';
-import 'package:tombola/utils/constants.dart';
 
 class SetupGameScreen extends ConsumerWidget {
   const SetupGameScreen({
@@ -22,8 +22,8 @@ class SetupGameScreen extends ConsumerWidget {
       ),
       body: SafeArea(
         child: switch (asyncSession) {
-          AsyncData(:final value) => Center(
-              child: Text('Sessione trovata: $value'),
+          AsyncData(:final value) => SetupGameBody(
+              gameSession: value,
             ),
           AsyncError(:final error) => SetupErrorState(
               sessionId: sessionId,
