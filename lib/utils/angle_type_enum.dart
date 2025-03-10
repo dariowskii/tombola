@@ -15,6 +15,14 @@ enum AngleType {
         _ => AngleType.none,
       };
 
+  static AngleType fromRaffleCardIndex(int index) => switch (index) {
+        0 => AngleType.topLeft,
+        8 => AngleType.topRight,
+        18 => AngleType.bottomLeft,
+        26 => AngleType.bottomRight,
+        _ => AngleType.none,
+      };
+
   BorderRadius get borderRadius => switch (this) {
         AngleType.topLeft => const BorderRadius.only(
             topLeft: Radius.circular(8),
