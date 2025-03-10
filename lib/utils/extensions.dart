@@ -35,11 +35,6 @@ extension DateTimeFormat on DateTime {
       '${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year';
 }
 
-extension StringExtension on String {
-  bool get isValidEmail =>
-      RegExp(r'^[\w-\.+]+@([\w-]+\.)+[\w-]{2,6}$').hasMatch(this);
-}
-
 extension FirestoreCollectionExtensions on FirebaseFirestore {
   CollectionReference get sessions => collection('sessions');
 
