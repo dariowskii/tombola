@@ -110,14 +110,26 @@ class _AdminGameSessionScreenState
   void _showQRCodeFullModal() {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (context) {
+        final qrCodeColor = context.isDarkMode ? Colors.white : Colors.black;
         return SafeArea(
           child: Padding(
             padding: EdgeInsets.all(
               Spacing.medium.value,
             ),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
+                Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: context.colorScheme.onSurface,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+                Spacing.medium.h,
                 Text(
                   'Codice sessione',
                   style: context.textTheme.titleLarge?.copyWith(
@@ -129,16 +141,34 @@ class _AdminGameSessionScreenState
                   child: QrImageView(
                     data: widget.sessionId,
                     size: min(context.width * 0.8, 400),
-                    embeddedImage: Image.asset(
-                      AssetMedia.mlModenaLogo.path,
-                    ).image,
+                    eyeStyle: QrEyeStyle(
+                      eyeShape: QrEyeShape.square,
+                      color: qrCodeColor,
+                    ),
+                    dataModuleStyle: QrDataModuleStyle(
+                      dataModuleShape: QrDataModuleShape.circle,
+                      color: qrCodeColor,
+                    ),
                   ),
                 ),
                 Spacing.medium.h,
                 Center(
-                  child: Text(
-                    widget.sessionId,
-                    style: context.textTheme.bodyLarge,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: context.colorScheme.primary,
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 4,
+                    ),
+                    child: Text(
+                      widget.sessionId,
+                      style: context.textTheme.bodyLarge?.copyWith(
+                        color: context.colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ],
