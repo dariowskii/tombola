@@ -13,7 +13,7 @@ abstract class GameSession with _$GameSession {
     required String id,
     required bool isActive,
     required String eventName,
-    @TimestampConverter() required DateTime createdAt,
+    @TimestampConverter() DateTime? createdAt,
     @Default([]) List<int> extractedNumbers,
   }) = _GameSession;
 
