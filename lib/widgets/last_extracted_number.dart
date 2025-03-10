@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:tombola/utils/constants.dart';
+import 'package:tombola/utils/extensions.dart';
 
 class LastExtractedNumber extends StatelessWidget {
-  const LastExtractedNumber({super.key, required this.lastExtractedNumber});
+  const LastExtractedNumber({
+    super.key,
+    required this.lastExtractedNumber,
+  });
 
   final int lastExtractedNumber;
 
@@ -10,22 +15,33 @@ class LastExtractedNumber extends StatelessWidget {
     final text =
         lastExtractedNumber == 0 ? '??' : lastExtractedNumber.toString();
 
-    return SliverAppBar(
-      elevation: 0,
-      automaticallyImplyLeading: false,
-      centerTitle: true,
-      title: const Text(
-        'Ultimo numero estratto',
-        style: TextStyle(color: Colors.black87),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: context.colorScheme.primary,
+          width: 2,
+        ),
       ),
-      backgroundColor: Colors.white,
-      foregroundColor: Colors.black87,
-      pinned: true,
-      collapsedHeight: 100,
-      expandedHeight: 100,
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(0),
-        child: Center(child: Text(text, style: const TextStyle(fontSize: 48))),
+      padding: EdgeInsets.all(
+        Spacing.medium.value,
+      ),
+      child: Column(
+        children: [
+          const Text(
+            'Ultimo numero estratto',
+            style: TextStyle(
+              color: Colors.black87,
+              fontSize: 24,
+            ),
+          ),
+          Text(
+            text,
+            style: const TextStyle(
+              fontSize: 48,
+            ),
+          ),
+        ],
       ),
     );
   }
