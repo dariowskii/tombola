@@ -7,20 +7,25 @@ import 'package:tombola/utils/extensions.dart';
 part 'recover_raffle_card.g.dart';
 
 @riverpod
-Future<RaffleCard> recoverRaffleCard(
+Future<RaffleCard?> recoverRaffleCard(
   Ref ref, {
   required String sessionId,
-  required String raffleId,
+  required String username,
 }) async {
   final rafflesCollection = FirebaseFirestore.instance.getRaffles(sessionId);
-  final docSnapshot = await rafflesCollection.doc(raffleId).get();
+  final docSnapshot = await rafflesCollection
+      .where(
+        'username',
+        isEqualTo: username,
+      )
+      .get();
 
-  if (docSnapshot.exists) {
-    final data = docSnapshot.data() as Map<String, dynamic>;
-    data['id'] = docSnapshot.id;
+  if (docSnapshot.docs.isNotEmpty) {
+    final data = docSnapshot.docs.first.data() as Map<String, dynamic>;
+    data['id'] = docSnapshot.docs.first.id;
 
     return RaffleCard.fromJson(data);
   }
 
-  throw Exception('Cartella non trovata');
+  return null;
 }
