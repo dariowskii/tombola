@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:tombola/features/admin_game_session_screen/data/extract_number_provider.dart';
 import 'package:tombola/features/admin_game_session_screen/data/update_active_session.dart';
@@ -104,6 +107,48 @@ class _AdminGameSessionScreenState
     );
   }
 
+  void _showQRCodeFullModal() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(
+              Spacing.medium.value,
+            ),
+            child: Column(
+              children: [
+                Text(
+                  'Codice sessione',
+                  style: context.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Spacing.medium.h,
+                Center(
+                  child: QrImageView(
+                    data: widget.sessionId,
+                    size: min(context.width * 0.8, 400),
+                    embeddedImage: Image.asset(
+                      AssetMedia.mlModenaLogo.path,
+                    ).image,
+                  ),
+                ),
+                Spacing.medium.h,
+                Center(
+                  child: Text(
+                    widget.sessionId,
+                    style: context.textTheme.bodyLarge,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final gameSession = _gameSession;
@@ -118,7 +163,12 @@ class _AdminGameSessionScreenState
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tombola!'),
+        centerTitle: true,
         actions: [
+          IconButton(
+            onPressed: _showQRCodeFullModal,
+            icon: const Icon(Icons.qr_code),
+          ),
           IconButton(
             onPressed: () {
               ref.read(
