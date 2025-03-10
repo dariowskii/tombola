@@ -41,8 +41,9 @@ class _SetupGameBodyState extends State<SetupGameBody> {
         }
 
         if (!asyncSnapshot.hasData) {
-          return const Center(
-            child: Text('Nessun dato disponibile'),
+          return SetupErrorState(
+            sessionId: widget.sessionId,
+            error: 'Nessun dato disponibile... 🤔',
           );
         }
 
