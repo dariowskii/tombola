@@ -26,3 +26,18 @@ Future<GameSession?> checkCode(Ref ref, String code) async {
     return null;
   }
 }
+
+@riverpod
+Future<GameSession> getSession(Ref ref, String code) async {
+  final sessionsCollection = FirebaseFirestore.instance.sessions;
+  final docSnapshot = await sessionsCollection.doc(code).get();
+
+  if (docSnapshot.exists) {
+    final data = docSnapshot.data() as Map<String, dynamic>;
+    data['id'] = docSnapshot.id;
+
+    return GameSession.fromJson(data);
+  }
+
+  throw Exception('Sessione non trovata');
+}
