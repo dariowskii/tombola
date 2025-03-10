@@ -74,6 +74,7 @@ class _SetupGameBodyState extends State<SetupGameBody> {
                 const Spacer(),
                 SetupGameForm(
                   sessionId: widget.sessionId,
+                  isActive: gameSession.isActive,
                 ),
                 const Spacer(),
               ],
