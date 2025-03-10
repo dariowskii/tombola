@@ -6,6 +6,7 @@ import 'package:tombola/models/game_session.dart';
 import 'package:tombola/utils/constants.dart';
 import 'package:tombola/utils/extensions.dart';
 import 'package:tombola/widgets/active_game_badge.dart';
+import 'package:tombola/widgets/last_extracted_number.dart';
 
 class SetupGameBody extends StatefulWidget {
   const SetupGameBody({
@@ -71,6 +72,14 @@ class _SetupGameBodyState extends State<SetupGameBody> {
                 ActiveGameBadge(
                   isActive: gameSession.isActive,
                 ),
+                if (gameSession.isActive) ...[
+                  Spacing.large.h,
+                  Spacing.large.h,
+                  LastExtractedNumber(
+                    lastExtractedNumber:
+                        gameSession.extractedNumbers.lastOrNull ?? 0,
+                  ),
+                ],
                 const Spacer(),
                 SetupGameForm(
                   sessionId: widget.sessionId,
