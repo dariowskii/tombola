@@ -7,7 +7,7 @@ import 'package:tombola/features/admin_game_session_screen/presentation/admin_ga
 import 'package:tombola/features/game_session_screen/presentation/game_session_screen.dart';
 import 'package:tombola/features/admin_screen/presentation/admin_screen.dart';
 import 'package:tombola/features/setup_game_screen/presentation/setup_game_screen.dart';
-import 'package:tombola/screens/login_screen.dart';
+import 'package:tombola/features/login_screen/presentation/login_screen.dart';
 import 'package:tombola/features/welcome_screen/presentation/welcome_screen.dart';
 
 part 'routes.g.dart';

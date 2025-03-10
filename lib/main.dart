@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:tombola/firebase_options.dart';
-import 'package:tombola/models/game_state.dart';
 import 'package:tombola/router/router.dart';
 
 void main() async {
@@ -20,9 +19,7 @@ void main() async {
 }
 
 class TombolaApp extends ConsumerWidget {
-  const TombolaApp({super.key, this.gameState});
-
-  final GameState? gameState;
+  const TombolaApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
