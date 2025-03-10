@@ -23,7 +23,7 @@ class SetupGameScreen extends ConsumerWidget {
       body: SafeArea(
         child: switch (asyncSession) {
           AsyncData(:final value) => SetupGameBody(
-              gameSession: value,
+              sessionId: value.id,
             ),
           AsyncError(:final error) => SetupErrorState(
               sessionId: sessionId,
