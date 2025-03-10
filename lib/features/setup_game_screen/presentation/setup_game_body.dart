@@ -70,6 +70,8 @@ class _SetupGameBodyState extends State<SetupGameBody> {
                 ActiveGameBadge(
                   isActive: gameSession.isActive,
                 ),
+                const Spacer(),
+                const Spacer(),
               ],
             ),
           ),

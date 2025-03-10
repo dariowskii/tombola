@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tombola/features/setup_game_screen/data/setup_game_body.dart';
+import 'package:tombola/features/setup_game_screen/presentation/setup_game_body.dart';
 import 'package:tombola/features/setup_game_screen/presentation/error_state.dart';
 import 'package:tombola/providers/check_session_code_provider.dart';
 
