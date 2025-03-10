@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tombola/features/admin_screen/presentation/create_session_modal.dart';
 import 'package:tombola/features/admin_screen/presentation/sessions_list.dart';
 import 'package:tombola/router/routes.dart';
 import 'package:tombola/utils/extensions.dart';
@@ -55,6 +56,16 @@ class _AdminScreenState extends State<AdminScreen> {
     const WelcomeRoute().go(context);
   }
 
+  void _showCreateSessionModal() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return const CreateSessionModal();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,9 +82,7 @@ class _AdminScreenState extends State<AdminScreen> {
       ),
       body: const SessionsList(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // TODO: go to create session page
-        },
+        onPressed: _showCreateSessionModal,
         child: const Icon(Icons.add),
       ),
     );
