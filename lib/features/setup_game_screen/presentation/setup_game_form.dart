@@ -104,7 +104,9 @@ class _SetupGameFormState extends ConsumerState<SetupGameForm> {
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: context.colorScheme.onSurface,
+                      color: context.colorScheme.onSurface.withValues(
+                        alpha: .5,
+                      ),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
