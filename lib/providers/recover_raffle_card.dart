@@ -29,3 +29,22 @@ Future<RaffleCard?> recoverRaffleCard(
 
   return null;
 }
+
+@riverpod
+Future<RaffleCard?> getRaffleCard(
+  Ref ref, {
+  required String sessionId,
+  required String raffleId,
+}) async {
+  final rafflesCollection = FirebaseFirestore.instance.getRaffles(sessionId);
+  final docSnapshot = await rafflesCollection.doc(raffleId).get();
+
+  if (docSnapshot.exists) {
+    final data = docSnapshot.data() as Map<String, dynamic>;
+    data['id'] = docSnapshot.id;
+
+    return RaffleCard.fromJson(data);
+  }
+
+  return null;
+}
