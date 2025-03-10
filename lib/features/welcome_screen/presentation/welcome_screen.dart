@@ -78,6 +78,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   void _openQRCodeScanner() async {
     Navigator.pop(context);
     try {
+      if (!mounted) return;
       final res = await SimpleBarcodeScanner.scanBarcode(
         context,
         scanType: ScanType.qr,
@@ -98,6 +99,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
       );
 
       if (res != null && res.isNotEmpty && res != '-1') {
+        await Future.delayed(1.seconds);
         _checkCodeAndRedirect(res);
       }
     } catch (e) {
