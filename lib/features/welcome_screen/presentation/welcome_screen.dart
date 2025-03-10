@@ -134,7 +134,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
       return;
     }
 
-    GameSessionRoute(session: gameSession.id).go(context);
+    SetupGameRoute(id: gameSession.id).go(context);
   }
 
   @override
