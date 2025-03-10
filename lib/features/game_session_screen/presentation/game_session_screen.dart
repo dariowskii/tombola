@@ -143,9 +143,27 @@ class _GameSessionScreenState extends ConsumerState<GameSessionScreen> {
                   ),
                   const Spacer(),
                   Text(
-                    'La tua cartella',
+                    'Cartella di',
                     style: context.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Spacing.small.h,
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: context.colorScheme.primary,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      raffleCard.username,
+                      style: context.textTheme.titleMedium?.copyWith(
+                        color: context.colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                   RaffleCardLayout(
