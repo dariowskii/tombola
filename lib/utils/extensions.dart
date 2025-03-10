@@ -30,6 +30,11 @@ extension DurationExtensions on num {
   Duration get days => (this * 1000 * 1000 * 60 * 60 * 24).microseconds;
 }
 
+extension DateTimeFormat on DateTime {
+  String get formatted =>
+      '${day.toString().padLeft(2, '0')}/${month.toString().padLeft(2, '0')}/$year';
+}
+
 extension FirestoreCollectionExtensions on FirebaseFirestore {
   CollectionReference get sessions => collection('sessions');
 
