@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tombola/models/timestamp_converter.dart';
@@ -22,7 +24,7 @@ abstract class GameSession with _$GameSession {
 @freezed
 abstract class RaffleCard with _$RaffleCard {
   const factory RaffleCard({
-    required String id,
+    @JsonKey(includeToJson: false) required String id,
     required String username,
     required List<int> numbers,
   }) = _RaffleCard;
