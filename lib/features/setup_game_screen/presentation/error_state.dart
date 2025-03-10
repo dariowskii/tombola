@@ -29,7 +29,8 @@ class SetupErrorState extends ConsumerWidget {
           ),
           Spacing.medium.h,
           Text('$error'),
-          Spacing.medium.h,
+          Spacing.large.h,
+          Spacing.large.h,
           FilledButton(
             onPressed: () {
               ref.invalidate(getSessionProvider(sessionId));
