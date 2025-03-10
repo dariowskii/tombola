@@ -47,12 +47,18 @@ class _SetupGameFormState extends ConsumerState<SetupGameForm> {
     super.dispose();
   }
 
-  void _recoverRaffleCardFromUsername() async {
+  void _recoverRaffleCardFromUsername([ActionType? actionType]) async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
     final username = _usernameController.text;
+    _usernameController.clear();
+
+    if (actionType == ActionType.recover) {
+      Navigator.pop(context);
+      await Future.delayed(300.ms);
+    }
 
     try {
       final raffleCard = await ref.read(
@@ -154,7 +160,7 @@ class _SetupGameFormState extends ConsumerState<SetupGameForm> {
                         if (actionType == ActionType.create) {
                           _generateRaffleCardAndRedirect();
                         } else {
-                          _recoverRaffleCardFromUsername();
+                          _recoverRaffleCardFromUsername(ActionType.recover);
                         }
                       },
                       child: const Text('Conferma'),
