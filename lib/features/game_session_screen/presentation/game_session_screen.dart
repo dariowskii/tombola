@@ -7,6 +7,7 @@ import 'package:tombola/models/game_session.dart';
 import 'package:tombola/providers/recover_raffle_card.dart';
 import 'package:tombola/utils/constants.dart';
 import 'package:tombola/utils/extensions.dart';
+import 'package:tombola/widgets/active_game_badge.dart';
 import 'package:tombola/widgets/last_extracted_number.dart';
 
 class GameSessionScreen extends ConsumerStatefulWidget {
@@ -135,6 +136,10 @@ class _GameSessionScreenState extends ConsumerState<GameSessionScreen> {
                     style: context.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
+                  ),
+                  Spacing.medium.h,
+                  ActiveGameBadge(
+                    isActive: gameSession.isActive,
                   ),
                   Spacing.large.h,
                   LastExtractedNumber(
