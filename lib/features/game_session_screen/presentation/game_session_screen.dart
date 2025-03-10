@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tombola/features/game_session_screen/presentation/game_session_error.dart';
 import 'package:tombola/features/game_session_screen/presentation/raffle_card_layout.dart';
@@ -71,11 +70,16 @@ class _GameSessionScreenState extends ConsumerState<GameSessionScreen> {
   }
 
   void _shareGameLink() {
+    final raffleCard = _raffleCard;
+    if (raffleCard == null) {
+      return;
+    }
+
     try {
-      final path = GoRouterState.of(context).uri;
-      final message =
-          'Guarda la mia cartella nella tombola di ML Modena!\n\n$path';
-      Share.share(message);
+      var message = 'Guarda la mia cartella nella tombola di ML Modena! 🎉\n\n';
+      message += 'ID sessione: ${widget.sessionId}\n';
+      message += 'Username: ${raffleCard.username}\n\n';
+      Share.share(message, subject: 'Cartella Tombola ML Modena');
     } catch (e) {
       if (mounted) {
         context.showSnackBar('Errore durante la condivisione del link');
