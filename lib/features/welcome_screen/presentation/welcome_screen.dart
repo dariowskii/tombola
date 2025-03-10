@@ -129,11 +129,6 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
       return;
     }
 
-    if (!gameSession.isActive) {
-      context.showSnackBar('Sessione non attiva');
-      return;
-    }
-
     SetupGameRoute(id: gameSession.id).go(context);
   }
 
