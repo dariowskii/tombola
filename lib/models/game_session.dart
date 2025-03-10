@@ -23,7 +23,7 @@ abstract class GameSession with _$GameSession {
 abstract class RaffleCard with _$RaffleCard {
   const factory RaffleCard({
     required String id,
-    required String email,
+    required String username,
     required List<int> numbers,
   }) = _RaffleCard;
 
