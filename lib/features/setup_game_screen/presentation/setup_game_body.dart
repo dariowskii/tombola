@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:tombola/features/setup_game_screen/presentation/error_state.dart';
+import 'package:tombola/features/setup_game_screen/presentation/setup_game_form.dart';
 import 'package:tombola/models/game_session.dart';
 import 'package:tombola/utils/constants.dart';
 import 'package:tombola/utils/extensions.dart';
@@ -71,6 +72,9 @@ class _SetupGameBodyState extends State<SetupGameBody> {
                   isActive: gameSession.isActive,
                 ),
                 const Spacer(),
+                SetupGameForm(
+                  sessionId: widget.sessionId,
+                ),
                 const Spacer(),
               ],
             ),
