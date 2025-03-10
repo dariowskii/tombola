@@ -31,7 +31,6 @@ class LastExtractedNumber extends StatelessWidget {
           const Text(
             'Ultimo numero estratto',
             style: TextStyle(
-              color: Colors.black87,
               fontSize: 24,
             ),
           ),
