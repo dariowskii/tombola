@@ -41,4 +41,8 @@ extension FirestoreCollectionExtensions on FirebaseFirestore {
   CollectionReference getRaffles(String sessionId) {
     return sessions.doc(sessionId).collection('raffles');
   }
+
+  DocumentReference<Object?> getRaffle(String sessionId, String raffleId) {
+    return getRaffles(sessionId).doc(raffleId);
+  }
 }
