@@ -19,7 +19,8 @@ final kExtractableNumbers = List.generate(
 // ASSETS
 
 enum AssetMedia {
-  welcomeBackground('assets/img/welcome_bg.jpg');
+  welcomeBackground('assets/img/welcome_bg.jpg'),
+  mlModenaLogo('assets/img/ml_modena_logo.png');
 
   const AssetMedia(this.path);
   final String path;
