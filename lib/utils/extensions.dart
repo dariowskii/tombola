@@ -12,7 +12,7 @@ extension BuildContextExtension on BuildContext {
   ColorScheme get colorScheme => theme.colorScheme;
 
   bool get isDarkMode => theme.brightness == Brightness.dark;
-  bool get isLittleScreen => width < 600;
+  bool get isLittleScreen => width < 800;
 
   double get dynamicContainerSize => min(800, width);
 
