@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,7 @@ class TombolaApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
       title: 'Tombola!',
+      scrollBehavior: _CustomScrollBehavior(),
       routerConfig: ref.watch(routerProvider),
       darkTheme: ThemeData.from(
         colorScheme: ColorScheme.fromSeed(
@@ -42,4 +45,13 @@ class TombolaApp extends ConsumerWidget {
       ),
     );
   }
+}
+
+class _CustomScrollBehavior extends MaterialScrollBehavior {
+  // Override behavior methods and getters like dragDevices
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
 }
