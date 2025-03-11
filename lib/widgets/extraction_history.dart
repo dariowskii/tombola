@@ -8,25 +8,32 @@ class ExtractionHistory extends StatelessWidget {
     super.key,
     required this.extractedNumbers,
     required this.itemScrollController,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
+    this.titleFontSize,
   });
 
   final List<int> extractedNumbers;
   final ItemScrollController itemScrollController;
+  final CrossAxisAlignment crossAxisAlignment;
+  final double? titleFontSize;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: crossAxisAlignment,
       children: [
         Text(
           'Storico estrazioni',
           style: context.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
+            fontSize: titleFontSize,
           ),
         ),
-        const SizedBox(height: 8),
         SizedBox(
-          height: 30,
+          height: context.isLittleScreen ? 8 : 24,
+        ),
+        SizedBox(
+          height: context.isLittleScreen ? 30 : 60,
           child: extractedNumbers.isEmpty
               ? const Text('- - -')
               : ScrollablePositionedList.separated(
@@ -38,10 +45,7 @@ class ExtractionHistory extends StatelessWidget {
                     final number = extractedNumbers[index];
                     final isLast = number == extractedNumbers.last;
                     return Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 4,
-                      ),
+                      width: context.isLittleScreen ? 30 : 60,
                       decoration: BoxDecoration(
                         color: isLast
                             ? kLastExtractedColor(context)
@@ -53,14 +57,17 @@ class ExtractionHistory extends StatelessWidget {
                               : context.colorScheme.primary,
                         ),
                       ),
-                      child: Text(
-                        number.toString(),
-                        style: TextStyle(
-                          color: isLast
-                              ? context.colorScheme.onTertiary
-                              : context.colorScheme.onSurface,
-                          fontWeight:
-                              isLast ? FontWeight.bold : FontWeight.normal,
+                      child: Center(
+                        child: Text(
+                          number.toString(),
+                          style: TextStyle(
+                            fontSize: context.isLittleScreen ? 16 : 24,
+                            color: isLast
+                                ? context.colorScheme.onTertiary
+                                : context.colorScheme.onSurface,
+                            fontWeight:
+                                isLast ? FontWeight.bold : FontWeight.normal,
+                          ),
                         ),
                       ),
                     );
