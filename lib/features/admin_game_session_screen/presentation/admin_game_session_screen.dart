@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:tombola/features/admin_game_session_screen/data/extract_number_provider.dart';
 import 'package:tombola/features/admin_game_session_screen/data/update_active_session.dart';
+import 'package:tombola/features/admin_game_session_screen/presentation/game_info.dart';
 import 'package:tombola/features/admin_game_session_screen/presentation/master_bingo_table.dart';
 import 'package:tombola/features/admin_game_session_screen/presentation/qr_code_modal.dart';
 import 'package:tombola/features/admin_game_session_screen/presentation/smorfiai_dialog.dart';
@@ -181,23 +182,7 @@ class _AdminGameSessionScreenState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                gameSession.eventName,
-                style: context.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Spacing.medium.h,
-              if (gameSession.createdAt != null) ...[
-                Text(
-                  'Data: ${gameSession.createdAt!.formatted}',
-                  style: context.textTheme.bodySmall,
-                ),
-              ],
-              Text(
-                'Stato: ${gameSession.isActive ? 'Attiva' : 'Inattiva'}',
-                style: context.textTheme.bodySmall,
-              ),
+              GameInfo(gameSession: gameSession),
               Spacing.medium.h,
               ExtractionHistory(
                 extractedNumbers: gameSession.extractedNumbers,
