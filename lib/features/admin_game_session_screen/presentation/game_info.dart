@@ -8,10 +8,12 @@ class GameInfo extends StatelessWidget {
     super.key,
     required this.gameSession,
     this.crossAxisAlignment = CrossAxisAlignment.start,
+    this.titleFontSize,
   });
 
   final GameSession gameSession;
   final CrossAxisAlignment crossAxisAlignment;
+  final double? titleFontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +25,7 @@ class GameInfo extends StatelessWidget {
           gameSession.eventName,
           style: context.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
+            fontSize: titleFontSize,
           ),
         ),
         Spacing.medium.h,
