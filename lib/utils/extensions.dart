@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +13,8 @@ extension BuildContextExtension on BuildContext {
 
   bool get isDarkMode => theme.brightness == Brightness.dark;
   bool get isLittleScreen => width < 600;
+
+  double get dynamicContainerSize => min(800, width);
 
   void showSnackBar(String message) {
     ScaffoldMessenger.of(this).showSnackBar(
