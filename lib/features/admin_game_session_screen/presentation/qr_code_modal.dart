@@ -43,7 +43,7 @@ class QrCodeModal extends StatelessWidget {
             Center(
               child: QrImageView(
                 data: sessionId,
-                size: min(context.width * 0.8, 400),
+                size: min(context.width * 0.8, 600),
                 eyeStyle: QrEyeStyle(
                   eyeShape: QrEyeShape.square,
                   color: qrCodeColor,
