@@ -8,6 +8,7 @@ import 'package:tombola/features/admin_game_session_screen/data/extract_number_p
 import 'package:tombola/features/admin_game_session_screen/data/update_active_session.dart';
 import 'package:tombola/features/admin_game_session_screen/presentation/master_bingo_table.dart';
 import 'package:tombola/features/admin_game_session_screen/presentation/qr_code_modal.dart';
+import 'package:tombola/features/admin_game_session_screen/presentation/smorfiai_dialog.dart';
 import 'package:tombola/models/game_session.dart';
 import 'package:tombola/utils/constants.dart';
 import 'package:tombola/utils/extensions.dart';
@@ -64,10 +65,11 @@ class _AdminGameSessionScreenState
               session.extractedNumbers.length;
 
       setState(() {
-        _gameSession = session;
         if (hasNewExtraction) {
           _animateHistoryScroll();
+          _showLastNumberAssociatedImage();
         }
+        _gameSession = session;
       });
     });
   }
@@ -89,6 +91,29 @@ class _AdminGameSessionScreenState
         curve: Curves.easeOut,
       );
     });
+  }
+
+  void _showLastNumberAssociatedImage() {
+    final gameSession = _gameSession;
+    if (gameSession == null) {
+      return;
+    }
+
+    final lastNumber = gameSession.extractedNumbers.last;
+    final imageUrl = kNumberImages[lastNumber];
+
+    if (imageUrl == null) {
+      return;
+    }
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SmorfiaiDialog(
+          imageUrl: imageUrl,
+        );
+      },
+    );
   }
 
   void _extractNumber() {
