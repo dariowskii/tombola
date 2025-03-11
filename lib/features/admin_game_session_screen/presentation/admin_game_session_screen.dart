@@ -14,6 +14,7 @@ import 'package:tombola/models/game_session.dart';
 import 'package:tombola/utils/constants.dart';
 import 'package:tombola/utils/extensions.dart';
 import 'package:tombola/widgets/extraction_history.dart';
+import 'package:tombola/widgets/last_extracted_number.dart';
 
 class AdminGameSessionScreen extends ConsumerStatefulWidget {
   const AdminGameSessionScreen({
@@ -61,16 +62,19 @@ class _AdminGameSessionScreenState
 
       final session = GameSession.fromJson(sessionData);
 
-      final hasNewExtraction = _gameSession == null ||
+      final gameWasNull = _gameSession == null;
+      final hasNewExtraction = gameWasNull ||
           _gameSession!.extractedNumbers.length !=
               session.extractedNumbers.length;
 
       setState(() {
+        _gameSession = session;
         if (hasNewExtraction) {
           _animateHistoryScroll();
-          _showLastNumberAssociatedImage();
+          if (!gameWasNull) {
+            _showLastNumberAssociatedImage();
+          }
         }
-        _gameSession = session;
       });
     });
   }
@@ -95,13 +99,12 @@ class _AdminGameSessionScreenState
   }
 
   void _showLastNumberAssociatedImage() {
-    final gameSession = _gameSession;
-    if (gameSession == null) {
+    final lastExtractedNumber = _gameSession!.extractedNumbers.lastOrNull;
+    if (lastExtractedNumber == null) {
       return;
     }
 
-    final lastNumber = gameSession.extractedNumbers.last;
-    final imageUrl = kNumberImages[lastNumber];
+    final imageUrl = kNumberImages[lastExtractedNumber];
 
     if (imageUrl == null) {
       return;
@@ -178,33 +181,80 @@ class _AdminGameSessionScreenState
         padding: EdgeInsets.all(
           Spacing.medium.value,
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GameInfo(gameSession: gameSession),
-              Spacing.medium.h,
-              ExtractionHistory(
-                extractedNumbers: gameSession.extractedNumbers,
-                itemScrollController: _historyScrollController,
-              ),
-              Spacing.medium.h,
-              MasterBingoTable(
-                extractedNumbers: gameSession.extractedNumbers,
-              ),
-              Spacing.large.h,
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: !gameSession.isActive ||
-                          gameSession.extractedNumbers.length >= 90
-                      ? null
-                      : _extractNumber,
-                  child: const Text('Estrai'),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            if (constraints.maxWidth < 800) {
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GameInfo(gameSession: gameSession),
+                    Spacing.medium.h,
+                    ExtractionHistory(
+                      extractedNumbers: gameSession.extractedNumbers,
+                      itemScrollController: _historyScrollController,
+                    ),
+                    Spacing.medium.h,
+                    MasterBingoTable(
+                      extractedNumbers: gameSession.extractedNumbers,
+                    ),
+                    Spacing.large.h,
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton(
+                        onPressed: !gameSession.isActive ||
+                                gameSession.extractedNumbers.length >= 90
+                            ? null
+                            : _extractNumber,
+                        child: const Text('Estrai'),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
+              );
+            }
+
+            return Row(
+              spacing: Spacing.large.value,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GameInfo(
+                        gameSession: gameSession,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                      ),
+                      ExtractionHistory(
+                        extractedNumbers: gameSession.extractedNumbers,
+                        itemScrollController: _historyScrollController,
+                      ),
+                      LastExtractedNumber(
+                        lastExtractedNumber:
+                            gameSession.extractedNumbers.lastOrNull ?? 0,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FilledButton(
+                          onPressed: !gameSession.isActive ||
+                                  gameSession.extractedNumbers.length >= 90
+                              ? null
+                              : _extractNumber,
+                          child: const Text('Estrai'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: MasterBingoTable(
+                    extractedNumbers: gameSession.extractedNumbers,
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
