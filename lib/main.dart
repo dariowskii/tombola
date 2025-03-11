@@ -28,7 +28,7 @@ class TombolaApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      title: 'Tombola!',
+      title: 'ML Tombola!',
       scrollBehavior: _CustomScrollBehavior(),
       routerConfig: ref.watch(routerProvider),
       darkTheme: ThemeData.from(
