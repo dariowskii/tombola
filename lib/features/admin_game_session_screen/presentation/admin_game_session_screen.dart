@@ -170,26 +170,28 @@ class _AdminGameSessionScreenState
             onPressed: _showQRCodeFullModal,
             icon: const Icon(Icons.qr_code),
           ),
-          IconButton(
-            onPressed: () {
-              ref.read(
-                setActiveSessionProvider(
-                  sessionId: gameSession.id,
-                  isActive: !gameSession.isActive,
-                ),
-              );
-            },
-            icon: Icon(gameSession.isActive ? Icons.stop : Icons.play_arrow),
-          ),
+          if (context.isLittleScreen) ...[
+            IconButton(
+              onPressed: () {
+                ref.read(
+                  setActiveSessionProvider(
+                    sessionId: gameSession.id,
+                    isActive: !gameSession.isActive,
+                  ),
+                );
+              },
+              icon: Icon(gameSession.isActive ? Icons.stop : Icons.play_arrow),
+            ),
+          ],
         ],
       ),
       body: Padding(
         padding: EdgeInsets.all(
           Spacing.medium.value,
         ),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            if (constraints.maxWidth < 800) {
+        child: Builder(
+          builder: (context) {
+            if (context.isLittleScreen) {
               return SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,24 +230,25 @@ class _AdminGameSessionScreenState
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      GameInfo(
-                        gameSession: gameSession,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      Column(
+                        spacing: 40,
+                        children: [
+                          GameInfo(
+                            gameSession: gameSession,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            titleFontSize: 40,
+                          ),
+                          LastExtractedNumber(
+                            lastExtractedNumber:
+                                gameSession.extractedNumbers.lastOrNull ?? 0,
+                          ),
+                        ],
                       ),
                       ExtractionHistory(
                         extractedNumbers: gameSession.extractedNumbers,
                         itemScrollController: _historyScrollController,
-                      ),
-                      LastExtractedNumber(
-                        lastExtractedNumber:
-                            gameSession.extractedNumbers.lastOrNull ?? 0,
-                      ),
-                      FilledButton(
-                        onPressed: !gameSession.isActive ||
-                                gameSession.extractedNumbers.length >= 90
-                            ? null
-                            : _extractNumber,
-                        child: const Text('Estrai'),
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        titleFontSize: 30,
                       ),
                     ],
                   ),
