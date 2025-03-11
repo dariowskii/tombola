@@ -71,11 +71,12 @@ class _AdminGameSessionScreenState
         _gameSession = session;
         if (hasNewExtraction) {
           _animateHistoryScroll();
-          if (!gameWasNull) {
-            _showLastNumberAssociatedImage();
-          }
         }
       });
+
+      if (hasNewExtraction && !gameWasNull) {
+        _showLastNumberAssociatedImage();
+      }
     });
   }
 
@@ -98,8 +99,8 @@ class _AdminGameSessionScreenState
     });
   }
 
-  void _showLastNumberAssociatedImage() {
-    final lastExtractedNumber = _gameSession!.extractedNumbers.lastOrNull;
+  void _showLastNumberAssociatedImage() async {
+    final lastExtractedNumber = _gameSession?.extractedNumbers.lastOrNull;
     if (lastExtractedNumber == null) {
       return;
     }
@@ -107,6 +108,11 @@ class _AdminGameSessionScreenState
     final imageUrl = kNumberImages[lastExtractedNumber];
 
     if (imageUrl == null) {
+      return;
+    }
+
+    await Future.delayed(1.seconds);
+    if (!mounted) {
       return;
     }
 
@@ -234,15 +240,12 @@ class _AdminGameSessionScreenState
                         lastExtractedNumber:
                             gameSession.extractedNumbers.lastOrNull ?? 0,
                       ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: FilledButton(
-                          onPressed: !gameSession.isActive ||
-                                  gameSession.extractedNumbers.length >= 90
-                              ? null
-                              : _extractNumber,
-                          child: const Text('Estrai'),
-                        ),
+                      FilledButton(
+                        onPressed: !gameSession.isActive ||
+                                gameSession.extractedNumbers.length >= 90
+                            ? null
+                            : _extractNumber,
+                        child: const Text('Estrai'),
                       ),
                     ],
                   ),
