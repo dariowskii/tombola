@@ -7,14 +7,16 @@ class GameInfo extends StatelessWidget {
   const GameInfo({
     super.key,
     required this.gameSession,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
   });
 
   final GameSession gameSession;
+  final CrossAxisAlignment crossAxisAlignment;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: crossAxisAlignment,
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
