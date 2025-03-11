@@ -12,7 +12,8 @@ class WelcomeBackground extends StatelessWidget {
         Image.asset(
           AssetMedia.welcomeBackground.path,
           width: double.infinity,
-          fit: BoxFit.cover,
+          height: !context.isLittleScreen ? context.height * 0.4 : null,
+          fit: !context.isLittleScreen ? BoxFit.contain : BoxFit.cover,
         ),
         Positioned(
           left: 0,
