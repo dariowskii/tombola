@@ -51,6 +51,9 @@ class SmorfiaiDialog extends StatelessWidget {
                   ),
                   child: Center(
                     child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation(
+                        context.colorScheme.onSurface,
+                      ),
                       value: loadingProgress.expectedTotalBytes != null
                           ? loadingProgress.cumulativeBytesLoaded /
                               loadingProgress.expectedTotalBytes!
