@@ -10,6 +10,7 @@ extension BuildContextExtension on BuildContext {
   ColorScheme get colorScheme => theme.colorScheme;
 
   bool get isDarkMode => theme.brightness == Brightness.dark;
+  bool get isLittleScreen => width < 600;
 
   void showSnackBar(String message) {
     ScaffoldMessenger.of(this).showSnackBar(
