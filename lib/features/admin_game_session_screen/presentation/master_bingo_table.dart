@@ -7,9 +7,11 @@ class MasterBingoTable extends StatelessWidget {
   const MasterBingoTable({
     super.key,
     required this.extractedNumbers,
+    required this.onTapNumber,
   });
 
   final List<int> extractedNumbers;
+  final void Function(int number) onTapNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -45,30 +47,34 @@ class MasterBingoTable extends StatelessWidget {
               final isLastExtracted = extractedNumbers.isNotEmpty &&
                   extractedNumbers.last == number;
               final angleType = AngleType.fromNumber(number);
-              return Container(
-                decoration: BoxDecoration(
-                  color: isLastExtracted
-                      ? kLastExtractedColor(context)
-                      : isExtracted
-                          ? context.colorScheme.primary
-                          : context.colorScheme.surface,
-                  borderRadius: angleType.borderRadius,
-                  border: Border.all(
-                    color: context.colorScheme.primary,
-                    width: isLastExtracted ? 0 : 1,
+              return InkWell(
+                onTap: () => onTapNumber(number),
+                borderRadius: angleType.borderRadius,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: isLastExtracted
+                        ? kLastExtractedColor(context)
+                        : isExtracted
+                            ? context.colorScheme.primary
+                            : context.colorScheme.surface,
+                    borderRadius: angleType.borderRadius,
+                    border: Border.all(
+                      color: context.colorScheme.primary,
+                      width: isLastExtracted ? 0 : 1,
+                    ),
                   ),
-                ),
-                child: Center(
-                  child: Text(
-                    number.toString(),
-                    style: TextStyle(
-                      color: isLastExtracted
-                          ? context.colorScheme.onTertiary
-                          : isExtracted
-                              ? context.colorScheme.onPrimary
-                              : context.colorScheme.onSurface,
-                      fontWeight:
-                          isExtracted ? FontWeight.bold : FontWeight.normal,
+                  child: Center(
+                    child: Text(
+                      number.toString(),
+                      style: TextStyle(
+                        color: isLastExtracted
+                            ? context.colorScheme.onTertiary
+                            : isExtracted
+                                ? context.colorScheme.onPrimary
+                                : context.colorScheme.onSurface,
+                        fontWeight:
+                            isExtracted ? FontWeight.bold : FontWeight.normal,
+                      ),
                     ),
                   ),
                 ),
