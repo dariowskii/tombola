@@ -186,7 +186,7 @@ class _SetupGameFormState extends ConsumerState<SetupGameForm> {
     Navigator.pop(context);
     await Future.delayed(1.seconds);
 
-    final username = _usernameController.text;
+    final username = _usernameController.text.trim();
     _usernameController.clear();
 
     try {
