@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
+import 'package:tombola/features/welcome_screen/presentation/qr_code_scanner.dart';
 import 'package:tombola/providers/check_session_code_provider.dart';
 import 'package:tombola/features/welcome_screen/presentation/insert_code_manually_dialog.dart';
 import 'package:tombola/features/welcome_screen/presentation/welcome_background.dart';
@@ -79,27 +79,18 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
     Navigator.pop(context);
     try {
       if (!mounted) return;
-      final res = await SimpleBarcodeScanner.scanBarcode(
-        context,
-        scanType: ScanType.qr,
-        cancelButtonText: 'Indietro',
-        barcodeAppBar: const BarcodeAppBar(
-          enableBackButton: true,
-          backButtonIcon: Icon(Icons.arrow_back_ios),
-        ),
-        cameraFace: CameraFace.front,
-        scanFormat: ScanFormat.ONLY_QR_CODE,
-        child: SafeArea(
-          child: Container(
-            color: Colors.red,
-            height: 100,
-            width: 100,
-          ),
-        ),
+      final res = await showModalBottomSheet<String>(
+        context: context,
+        builder: (context) {
+          return QrCodeScanner(
+            onDetectCode: (detectedCode) {
+              Navigator.pop(context, detectedCode);
+            },
+          );
+        },
       );
 
-      if (res != null && res.isNotEmpty && res != '-1') {
-        await Future.delayed(1.seconds);
+      if (res != null && res.isNotEmpty) {
         _checkCodeAndRedirect(res);
       }
     } catch (e) {
