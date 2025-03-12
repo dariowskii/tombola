@@ -145,6 +145,9 @@ class _SetupGameFormState extends ConsumerState<SetupGameForm> {
                         if (value == null || value.isEmpty) {
                           return 'Inserisci uno username';
                         }
+                        if (value.contains(' ')) {
+                          return 'Lo username non può contenere spazi';
+                        }
                         return null;
                       },
                       onTapOutside: (_) {
