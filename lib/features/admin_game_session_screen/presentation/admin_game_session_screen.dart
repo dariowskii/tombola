@@ -99,10 +99,14 @@ class _AdminGameSessionScreenState
     });
   }
 
-  void _showLastNumberAssociatedImage() async {
-    final lastExtractedNumber = _gameSession?.extractedNumbers.lastOrNull;
-    if (lastExtractedNumber == null) {
+  void _showLastNumberAssociatedImage([int? forcedNumber]) async {
+    var lastExtractedNumber = _gameSession?.extractedNumbers.lastOrNull;
+    if (lastExtractedNumber == null && forcedNumber == null) {
       return;
+    }
+
+    if (forcedNumber != null) {
+      lastExtractedNumber = forcedNumber;
     }
 
     final imageUrl = kNumberImages[lastExtractedNumber];
@@ -111,7 +115,9 @@ class _AdminGameSessionScreenState
       return;
     }
 
-    await Future.delayed(1.seconds);
+    if (forcedNumber != null) {
+      await Future.delayed(1.seconds);
+    }
     if (!mounted) {
       return;
     }
@@ -205,6 +211,9 @@ class _AdminGameSessionScreenState
                     Spacing.medium.h,
                     MasterBingoTable(
                       extractedNumbers: gameSession.extractedNumbers,
+                      onTapNumber: (number) {
+                        _showLastNumberAssociatedImage(number);
+                      },
                     ),
                     Spacing.large.h,
                     SizedBox(
@@ -256,6 +265,9 @@ class _AdminGameSessionScreenState
                 Expanded(
                   child: MasterBingoTable(
                     extractedNumbers: gameSession.extractedNumbers,
+                    onTapNumber: (number) {
+                      _showLastNumberAssociatedImage(number);
+                    },
                   ),
                 ),
               ],
