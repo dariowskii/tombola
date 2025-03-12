@@ -57,7 +57,7 @@ class _SetupGameFormState extends ConsumerState<SetupGameForm> {
 
     if (actionType == ActionType.recover) {
       Navigator.pop(context);
-      await Future.delayed(300.ms);
+      await Future.delayed(1.seconds);
     }
 
     try {
@@ -181,7 +181,7 @@ class _SetupGameFormState extends ConsumerState<SetupGameForm> {
     }
 
     Navigator.pop(context);
-    await Future.delayed(300.ms);
+    await Future.delayed(1.seconds);
 
     final username = _usernameController.text;
     _usernameController.clear();
