@@ -52,7 +52,7 @@ class _SetupGameFormState extends ConsumerState<SetupGameForm> {
       return;
     }
 
-    final username = _usernameController.text;
+    final username = _usernameController.text.trim();
     _usernameController.clear();
 
     if (actionType == ActionType.recover) {
