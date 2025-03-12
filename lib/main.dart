@@ -16,10 +16,6 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
-
   runApp(
     const ProviderScope(
       child: TombolaApp(),
@@ -27,11 +23,26 @@ void main() async {
   );
 }
 
-class TombolaApp extends ConsumerWidget {
+class TombolaApp extends ConsumerStatefulWidget {
   const TombolaApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TombolaApp> createState() => _TombolaAppState();
+}
+
+class _TombolaAppState extends ConsumerState<TombolaApp> {
+  @override
+  void initState() {
+    super.initState();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'ML Tombola!',
       scrollBehavior: _CustomScrollBehavior(),
