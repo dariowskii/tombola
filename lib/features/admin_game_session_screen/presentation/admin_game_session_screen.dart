@@ -115,7 +115,7 @@ class _AdminGameSessionScreenState
       return;
     }
 
-    if (forcedNumber != null) {
+    if (forcedNumber == null) {
       await Future.delayed(1.seconds);
     }
     if (!mounted) {
