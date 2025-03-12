@@ -100,6 +100,9 @@ class _AdminGameSessionScreenState
   }
 
   void _showLastNumberAssociatedImage([int? forcedNumber]) async {
+    if (context.isLittleScreen) {
+      return;
+    }
     var lastExtractedNumber = _gameSession?.extractedNumbers.lastOrNull;
     if (lastExtractedNumber == null && forcedNumber == null) {
       return;
@@ -176,19 +179,17 @@ class _AdminGameSessionScreenState
             onPressed: _showQRCodeFullModal,
             icon: const Icon(Icons.qr_code),
           ),
-          if (context.isLittleScreen) ...[
-            IconButton(
-              onPressed: () {
-                ref.read(
-                  setActiveSessionProvider(
-                    sessionId: gameSession.id,
-                    isActive: !gameSession.isActive,
-                  ),
-                );
-              },
-              icon: Icon(gameSession.isActive ? Icons.stop : Icons.play_arrow),
-            ),
-          ],
+          IconButton(
+            onPressed: () {
+              ref.read(
+                setActiveSessionProvider(
+                  sessionId: gameSession.id,
+                  isActive: !gameSession.isActive,
+                ),
+              );
+            },
+            icon: Icon(gameSession.isActive ? Icons.stop : Icons.play_arrow),
+          ),
         ],
       ),
       body: Padding(
@@ -258,6 +259,16 @@ class _AdminGameSessionScreenState
                         itemScrollController: _historyScrollController,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         titleFontSize: 30,
+                      ),
+                      SizedBox(
+                        width: 200,
+                        child: FilledButton(
+                          onPressed: !gameSession.isActive ||
+                                  gameSession.extractedNumbers.length >= 90
+                              ? null
+                              : _extractNumber,
+                          child: const Text('Estrai'),
+                        ),
                       ),
                     ],
                   ),
